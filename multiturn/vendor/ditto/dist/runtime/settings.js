@@ -1,0 +1,126 @@
+import { validatePolicy } from "../worker/context/validation.js";
+import { DEFAULT_CONTEXT_POLICY } from "../worker/context/execution.js";
+import { common } from "../worker/infer/validation.js";
+function record(value, path, keys) {
+    if (!value || typeof value !== "object" || Array.isArray(value))
+        throw new Error(`${path} must be an object`);
+    for (const key of Object.keys(value)) {
+        if (["__proto__", "constructor", "prototype"].includes(key) || (keys && !keys.includes(key)))
+            throw new Error(`Unknown setting: ${path}.${key}`);
+    }
+    return value;
+}
+function integers(value, path, bounds) {
+    const entry = record(value, path, Object.keys(bounds));
+    for (const [key, v] of Object.entries(entry)) {
+        const [min, max] = bounds[key];
+        if (typeof v !== "number" || !Number.isSafeInteger(v) || v < min || v > max)
+            throw new Error(`${path}.${key} must be an integer in ${min}..${max}`);
+    }
+}
+function generation(value, path) {
+    record(value, path, ["temperature", "topP", "topK", "maxTokens", "stop", "seed"]);
+    common({ model: { model: "config" }, generation: value });
+}
+const positive = [1, Number.MAX_SAFE_INTEGER];
+const timeout = [1, 2 ** 31 - 1];
+const branch = [1, 16];
+/** Snapshot once at startup; callers cannot mutate nested defaults during concurrent requests. */
+export function validateRuntimeSettings(value) {
+    const v = record(value, "config", ["runtime", "workers", "shared"]);
+    if (v.runtime !== undefined) {
+        const { react, sandbox, ...runtime } = record(v.runtime, "runtime", ["sandbox", "timeoutMs", "maxTurns", "graphConcurrency", "loopMaxIterations", "react"]);
+        if (sandbox !== undefined)
+            integers(sandbox, "runtime.sandbox", { timeoutMs: timeout, maxOutputBytes: [1, 16 * 1024 * 1024] });
+        integers(runtime, "runtime", { timeoutMs: timeout, maxTurns: positive, graphConcurrency: positive, loopMaxIterations: positive });
+        if (react !== undefined)
+            integers(react, "runtime.react", { maxActionCalls: [0, Number.MAX_SAFE_INTEGER], maxTotalTokens: positive });
+    }
+    const workers = v.workers === undefined ? {} : record(v.workers, "workers", ["infer", "memory", "retrieval", "context", "interaction"]);
+    if (workers.context !== undefined) {
+        const settings = record(workers.context, "workers.context", ["policy", "cache", "localCache", "queue"]);
+        if (settings.localCache !== undefined)
+            integers(settings.localCache, "workers.context.localCache", { ttlMs: timeout, maxEntries: positive });
+        if (settings.queue !== undefined)
+            integers(settings.queue, "workers.context.queue", { maxPending: positive });
+        if (settings.policy !== undefined) {
+            const policy = record(settings.policy, "workers.context.policy", ["maxInlineBytes", "maxItems", "maxTokens", "duplicate", "missingRemoval"]);
+            validatePolicy({ ...DEFAULT_CONTEXT_POLICY, ...policy });
+        }
+        if (settings.cache !== undefined) {
+            const { keyPrefix, ...cache } = record(settings.cache, "workers.context.cache", ["ttlMs", "keyPrefix"]);
+            integers(cache, "workers.context.cache", { ttlMs: timeout });
+            if (keyPrefix !== undefined && (typeof keyPrefix !== "string" || keyPrefix.length === 0))
+                throw new Error("Invalid workers.context.cache.keyPrefix");
+        }
+    }
+    if (workers.interaction !== undefined) {
+        const settings = record(workers.interaction, "workers.interaction", ["commands", "webSearch"]);
+        if (settings.commands !== undefined)
+            integers(settings.commands, "workers.interaction.commands", {
+                maxEntries: [1, 10000], maxOutputBytes: [1, 1024 * 1024], maxErrorBytes: [1, 64 * 1024],
+            });
+        if (settings.webSearch !== undefined)
+            integers(settings.webSearch, "workers.interaction.webSearch", {
+                timeoutMs: timeout, maxResponseBytes: [1, 16 * 1024 * 1024],
+            });
+    }
+    if (workers.retrieval !== undefined) {
+        const { embedding, hybrid, rerank, ...retrieval } = record(workers.retrieval, "workers.retrieval", ["searchLimit", "embedding", "hybrid", "rerank"]);
+        integers(retrieval, "workers.retrieval", { searchLimit: [1, 10000] });
+        if (embedding !== undefined)
+            integers(embedding, "workers.retrieval.embedding", { batchSize: [1, 2048], dimensions: positive });
+        if (hybrid !== undefined)
+            integers(hybrid, "workers.retrieval.hybrid", { candidateLimit: [1, 10000], rrfK: positive });
+        if (rerank !== undefined)
+            integers(rerank, "workers.retrieval.rerank", { candidateLimit: [1, 10000] });
+    }
+    if (workers.memory !== undefined)
+        integers(workers.memory, "workers.memory", { queryLimit: [1, 10000], searchLimit: [1, 10000] });
+    if (workers.infer !== undefined) {
+        const infer = record(workers.infer, "workers.infer", ["generation", "constraints", "strategies", "deliberate"]);
+        if (infer.generation !== undefined)
+            generation(infer.generation, "workers.infer.generation");
+        if (infer.deliberate !== undefined) {
+            const { mode, generation: gen, ...selection } = record(infer.deliberate, "workers.infer.deliberate", ["mode", "selectCount", "generation"]);
+            if (mode !== undefined && (typeof mode !== "string" || !["select", "merge", "consensus", "debate"].includes(mode)))
+                throw new Error("Invalid workers.infer.deliberate.mode");
+            integers(selection, "workers.infer.deliberate", { selectCount: positive });
+            if (gen !== undefined)
+                generation(gen, "workers.infer.deliberate.generation");
+        }
+        if (infer.constraints !== undefined)
+            integers(infer.constraints, "workers.infer.constraints", { maxSteps: positive, maxTotalTokens: positive, timeoutMs: timeout });
+        if (infer.strategies !== undefined) {
+            const strategies = record(infer.strategies, "workers.infer.strategies", ["cot", "long-cot", "tot", "got", "self-consistency"]);
+            for (const [name, options] of Object.entries(strategies)) {
+                const bounds = name === "cot" || name === "long-cot" ? { rounds: [1, 64] }
+                    : name === "self-consistency" ? { candidates: branch }
+                        : name === "tot" ? { breadth: branch, depth: branch, beamWidth: branch } : { breadth: branch, depth: branch };
+                integers(options, `workers.infer.strategies.${name}`, bounds);
+            }
+        }
+    }
+    const shared = v.shared === undefined ? {} : record(v.shared, "shared", ["providers"]);
+    if (shared.providers !== undefined) {
+        for (const [name, entry] of Object.entries(record(shared.providers, "shared.providers"))) {
+            if (!/^[a-z][a-z0-9_]*$/.test(name))
+                throw new Error(`Invalid provider name: ${name}`);
+            const provider = record(entry, `shared.providers.${name}`, ["maxTokensField", "options"]);
+            if (provider.maxTokensField !== undefined && provider.maxTokensField !== "max_tokens" && provider.maxTokensField !== "max_completion_tokens")
+                throw new Error(`Invalid max tokens field: ${name}`);
+            if (provider.options !== undefined)
+                record(provider.options, `shared.providers.${name}.options`);
+        }
+    }
+    const snapshot = structuredClone(v);
+    const freeze = (item) => {
+        if (item && typeof item === "object" && !Object.isFrozen(item)) {
+            Object.freeze(item);
+            Object.values(item).forEach(freeze);
+        }
+    };
+    freeze(snapshot);
+    return snapshot;
+}
+//# sourceMappingURL=settings.js.map

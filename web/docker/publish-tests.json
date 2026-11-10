@@ -1,0 +1,258 @@
+[
+  {
+    "name": "typecheck",
+    "command": [
+      "node",
+      "node_modules/typescript/lib/tsc.js",
+      "-p",
+      "tsconfig.json",
+      "--noEmit"
+    ],
+    "log": "typecheck.log"
+  },
+  {
+    "name": "t8b-unit",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8b-unit.test.ts"
+    ],
+    "log": "t8b-unit.log"
+  },
+  {
+    "name": "t8b-fix4-client",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8b-fix4-client.test.ts"
+    ],
+    "log": "t8b-fix4-client.log"
+  },
+  {
+    "name": "t8b-fix4-atomic",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8b-fix4-atomic.test.ts"
+    ],
+    "log": "t8b-fix4-atomic.log"
+  },
+  {
+    "name": "t7-fix4-failure",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t7-fix4-failure-node.test.ts"
+    ],
+    "log": "t7-fix4-failure.log"
+  },
+  {
+    "name": "t4-graphs",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t4-graphs.test.ts"
+    ],
+    "log": "t4-graphs.log"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-isolation=none",
+      "--test-timeout=900000",
+      "tests/t8a-authorization.test.ts"
+    ],
+    "log": "t8a-authorization.test.log",
+    "name": "t8a-authorization.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-fix4-lock.test.ts"
+    ],
+    "log": "t8a-fix4-lock.test.log",
+    "name": "t8a-fix4-lock.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-isolation=none",
+      "--test-timeout=900000",
+      "tests/t8a-fix5-pauses.test.ts"
+    ],
+    "log": "t8a-fix5-pauses.test.log",
+    "name": "t8a-fix5-pauses.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-isolation=none",
+      "--test-timeout=900000",
+      "tests/t8a-safety.test.ts"
+    ],
+    "log": "t8a-safety.test.log",
+    "name": "t8a-safety.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8c-cleanup.test.ts"
+    ],
+    "log": "t8c-cleanup.test.log",
+    "name": "t8c-cleanup.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t9-lanes-core.test.ts"
+    ],
+    "log": "t9-lanes-core.log",
+    "name": "t9-lanes-core"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "tests/t9-lanes-fake.test.ts"
+    ],
+    "log": "t9-lanes-fake.log",
+    "name": "t9-lanes-fake"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-name-pattern=^(graphTimes: same result.*synthetic|resources:|fee confirmations:|confirm-fee[.]ts|helpers:)",
+      "tests/t9c1-export.test.ts"
+    ],
+    "log": "t9c1-export.log",
+    "name": "t9c1-export"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t9c3-core.test.ts"
+    ],
+    "log": "t9c3-core.log",
+    "name": "t9c3-core"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-isolation=none",
+      "--test-timeout=900000",
+      "tests/t10-export-charged.test.ts"
+    ],
+    "log": "t10-export-charged.log",
+    "name": "t10-export-charged"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-isolation=none",
+      "--test-timeout=900000",
+      "tests/t10-ledger-read.test.ts"
+    ],
+    "log": "t10-ledger-read.log",
+    "name": "t10-ledger-read"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-timeout=300000",
+      "tests/t10-visible.test.ts"
+    ],
+    "log": "t10-visible.log",
+    "name": "t10-visible"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-timeout=300000",
+      "tests/t11-routing.test.ts"
+    ],
+    "log": "t11-routing.log",
+    "name": "t11-routing"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-timeout=300000",
+      "tests/t11-egress.test.ts"
+    ],
+    "log": "t11-egress.log",
+    "name": "t11-egress"
+  },
+  {
+    "name": "web-runtime",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-isolation=none",
+      "--test-timeout=180000",
+      "tests/web-runtime.test.ts"
+    ],
+    "log": "web-runtime.log"
+  },
+  {
+    "name": "web-python",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "--test-isolation=none",
+      "--test-timeout=180000",
+      "tests/web-python.test.ts"
+    ],
+    "log": "web-python.log"
+  },
+  {"name":"t7-fix4-counts","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t7-fix4-counts.test.ts"],"log":"t7-fix4-counts.log"},
+  {"name":"t4-routing","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=180000","tests/t4-routing.test.ts"],"log":"t4-routing.log"},
+  {"name":"t8a-core.test","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t8a-core.test.ts"],"log":"t8a-core.test.log"},
+  {"name":"t8a-fix.test","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t8a-fix.test.ts"],"log":"t8a-fix.test.log"},
+  {"name":"t8a-fix5-data.test","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t8a-fix5-data.test.ts"],"log":"t8a-fix5-data.test.log"},
+  {"name":"t8c-contract.test","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t8c-contract.test.ts"],"log":"t8c-contract.test.log"},
+  {"name":"t8c-one-command-cli","command":["node","--experimental-transform-types","tests/t8c-cli.ts"],"log":"t8c-one-command-cli.log"},
+  {"name":"t8c-real-release-smoke","command":["node","--experimental-transform-types","tests/t8c-release-smoke.ts"],"log":"t8c-real-release-smoke.log"},
+  {"name":"t9-live-core","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t9-live-core.test.ts"],"log":"t9-live-core.log"},
+  {"name":"t9c2-core","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t9c2-core.test.ts"],"log":"t9c2-core.log"},
+  {"name":"t9c3-export","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/t9c3-export.test.ts"],"log":"t9c3-export.log"},
+  {"name":"egress-core","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/egress-core.test.ts"],"log":"egress-core.log"},
+  {"name":"web-b-egress","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/web-b-egress.test.ts"],"log":"web-b-egress.log"},
+  {"name":"web-b-scheduler","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/web-b-scheduler.test.ts"],"log":"web-b-scheduler.log"},
+  {"name":"web-c-worker-ipc","command":["node","--experimental-transform-types","tests/web-c-worker-ipc-container.ts"],"log":"web-c-worker-ipc.log"},
+  {"name":"web-prof-profile","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=300000","tests/web-prof-profile.test.ts"],"log":"web-prof-profile.log"},
+  {"name":"web-fix-channel","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=600000","tests/web-fix-channel.test.ts"],"log":"web-fix-channel.log"},
+  {"name":"web-fix2-search","command":["node","--experimental-transform-types","--test","--test-isolation=none","--test-timeout=600000","tests/web-fix2-search.test.ts"],"log":"web-fix2-search.log"}
+]

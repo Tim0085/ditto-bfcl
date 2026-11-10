@@ -1,0 +1,20 @@
+{
+  "name": "ditto-bfcl-graph",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "node node_modules/typescript/lib/tsc.js -p tsconfig.json --noEmit",
+    "test": "node --experimental-transform-types --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "@codesoul-co/ditto": "file:vendor/ditto"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "24.19.2"
+  }
+}

@@ -1,0 +1,397 @@
+{
+  "version": 1,
+  "seed": 20261105,
+  "rounds": 1,
+  "blockSize": 50,
+  "python": "E:/Anaconda3/python.exe",
+  "egress": {
+    "version": 1,
+    "backend": "replay",
+    "mode": "offline-reference",
+    "debug": true,
+    "settings": {
+      "profile": "deepseek",
+      "model": {
+        "protocol": "chat-completions",
+        "baseUrl": "",
+        "baseUrlEnv": "BFCL_BASE_URL",
+        "apiKeyEnv": "BFCL_API_KEY",
+        "model": "deepseek-flash",
+        "reasoningEffort": "high",
+        "maxOutputTokens": 65536,
+        "maxInputTokens": 32768,
+        "maxRequestBytes": 8388608,
+        "timeoutMs": 600000,
+        "referencePrice": {
+          "inputPerMillion": 0.3,
+          "outputPerMillion": 1.2
+        }
+      },
+      "budget": {
+        "referenceUsd": 1000000000,
+        "maxRequests": 10000000
+      }
+    },
+    "perTaskRequests": 100,
+    "retryPolicy": {
+      "maxRetries": 2
+    },
+    "dispatchPolicy": {
+      "maxInFlight": 81,
+      "requestsPerMinute": 6000,
+      "minIntervalMs": 10,
+      "maxCooldownMs": 900000
+    },
+    "replay": {
+      "source": "../../bfcl_direct/runs/multiturn-full800-001",
+      "index": "runs/offline/replay-index/index.json",
+      "failOnDifference": true
+    }
+  },
+  "endpoint": {
+    "host": "127.0.0.1",
+    "port": 0
+  },
+  "sampling": {
+    "enabled": true,
+    "strict": true,
+    "expected": {
+      "cpuMax": "200000 100000",
+      "memoryMax": "4294967296",
+      "swapMax": "0"
+    },
+    "intervalMs": 200,
+    "processIntervalMs": 1000
+  },
+  "startupConcurrency": 4,
+  "stall": {
+    "idleMs": 900000,
+    "stopGraceMs": 30000,
+    "pollMs": 1000
+  },
+  "score": {
+    "timeoutMs": 120000,
+    "concurrency": 4
+  },
+  "hostSampleMs": 2000,
+  "runId": "t8c-slice-exp1-v2",
+  "stage": "slice",
+  "targetedSplit": "runs/offline/t8c-20261106/profile/targeted-split.json",
+  "configs": [
+    {
+      "id": "direct-c1",
+      "group": "Direct",
+      "c": 1,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-1-c1",
+      "group": "Monolithic",
+      "c": 1,
+      "copies": {
+        "All": 1
+      },
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-8-c1",
+      "group": "Monolithic",
+      "c": 1,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c1",
+      "group": "Uniform",
+      "c": 1,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c1",
+      "group": "Targeted",
+      "c": 1,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "direct-c4",
+      "group": "Direct",
+      "c": 4,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-4-c4",
+      "group": "Monolithic",
+      "c": 4,
+      "copies": {
+        "All": 4
+      },
+      "comparison": [
+        "direct",
+        "cost"
+      ]
+    },
+    {
+      "id": "mono-8-c4",
+      "group": "Monolithic",
+      "c": 4,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c4",
+      "group": "Uniform",
+      "c": 4,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c4",
+      "group": "Targeted",
+      "c": 4,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-16-c4",
+      "group": "Uniform",
+      "c": 4,
+      "copies": {
+        "Context": 4,
+        "Infer": 4,
+        "Interaction": 4,
+        "Memory": 4
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "targeted-7-c4",
+      "group": "Targeted",
+      "c": 4,
+      "copies": {
+        "Context": 1,
+        "Infer": 4,
+        "Interaction": 1,
+        "Memory": 1
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "direct-c8",
+      "group": "Direct",
+      "c": 8,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-8-c8",
+      "group": "Monolithic",
+      "c": 8,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "direct",
+        "cost",
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c8",
+      "group": "Uniform",
+      "c": 8,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c8",
+      "group": "Targeted",
+      "c": 8,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-32-c8",
+      "group": "Uniform",
+      "c": 8,
+      "copies": {
+        "Context": 8,
+        "Infer": 8,
+        "Interaction": 8,
+        "Memory": 8
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "targeted-11-c8",
+      "group": "Targeted",
+      "c": 8,
+      "copies": {
+        "Context": 1,
+        "Infer": 8,
+        "Interaction": 1,
+        "Memory": 1
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "mono-8-c8-solo",
+      "group": "Monolithic",
+      "c": 8,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "solo"
+      ]
+    }
+  ],
+  "batches": [
+    {
+      "id": "together",
+      "configs": [
+        "direct-c1",
+        "mono-1-c1",
+        "mono-8-c1",
+        "uniform-8-c1",
+        "targeted-8-c1",
+        "direct-c4",
+        "mono-4-c4",
+        "mono-8-c4",
+        "uniform-8-c4",
+        "targeted-8-c4",
+        "uniform-16-c4",
+        "targeted-7-c4",
+        "direct-c8",
+        "mono-8-c8",
+        "uniform-8-c8",
+        "targeted-8-c8",
+        "uniform-32-c8",
+        "targeted-11-c8"
+      ],
+      "caseIds": [
+        "multi_turn_base_27",
+        "multi_turn_base_96",
+        "multi_turn_base_149",
+        "multi_turn_base_194",
+        "multi_turn_base_34",
+        "multi_turn_miss_func_41",
+        "multi_turn_miss_func_76",
+        "multi_turn_miss_func_102",
+        "multi_turn_miss_func_190",
+        "multi_turn_miss_func_27",
+        "multi_turn_miss_param_21",
+        "multi_turn_miss_param_57",
+        "multi_turn_miss_param_114",
+        "multi_turn_miss_param_164",
+        "multi_turn_miss_param_30",
+        "multi_turn_long_context_35",
+        "multi_turn_long_context_87",
+        "multi_turn_long_context_140",
+        "multi_turn_long_context_155",
+        "multi_turn_long_context_7"
+      ]
+    },
+    {
+      "id": "solo",
+      "configs": [
+        "mono-8-c8-solo"
+      ],
+      "caseIds": [
+        "multi_turn_base_27",
+        "multi_turn_base_96",
+        "multi_turn_base_149",
+        "multi_turn_base_194",
+        "multi_turn_base_34",
+        "multi_turn_miss_func_41",
+        "multi_turn_miss_func_76",
+        "multi_turn_miss_func_102",
+        "multi_turn_miss_func_190",
+        "multi_turn_miss_func_27",
+        "multi_turn_miss_param_21",
+        "multi_turn_miss_param_57",
+        "multi_turn_miss_param_114",
+        "multi_turn_miss_param_164",
+        "multi_turn_miss_param_30",
+        "multi_turn_long_context_35",
+        "multi_turn_long_context_87",
+        "multi_turn_long_context_140",
+        "multi_turn_long_context_155",
+        "multi_turn_long_context_7"
+      ]
+    }
+  ],
+  "prices": {
+    "source": "bfcl_direct/config/deepseek.pricing.json historical frozen scenario, not current billing",
+    "date": "2026-10-26",
+    "valley": {
+      "cachedInput": 0.02,
+      "uncachedInput": 1,
+      "output": 4
+    },
+    "peak": {
+      "cachedInput": 0.04,
+      "uncachedInput": 2,
+      "output": 8
+    }
+  },
+  "launcher": {
+    "runtime": {
+      "clockTicks": 100,
+      "pageBytes": 4096
+    },
+    "tag": "exp1-v4",
+    "kind": "docker"
+  }
+}

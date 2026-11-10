@@ -1,0 +1,7 @@
+[
+  {"path":["tools",0,"function","strict"],"old":{"missing":true},"new":{"value":false}},
+  {"path":["tools",1,"function","strict"],"old":{"missing":true},"new":{"value":false}},
+  {"path":["tools",1,"function","response"],"old":{"value":{"type":"dict","properties":{"content":{"type":"string","description":"The processed web content as a string."}}}},"new":{"missing":true}},
+  {"path":["parallel_tool_calls"],"old":{"missing":true},"new":{"value":false}},
+  {"path":["tool_choice"],"old":{"missing":true},"new":{"value":"auto"}}
+]

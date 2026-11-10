@@ -1,0 +1,563 @@
+{
+  "status": "frozen",
+  "source": "web_search_no_snippet/r1-direct-c1",
+  "seed": "web-a-20261109",
+  "script": "scripts/build-replay-index.ts",
+  "rule": "Exclude redacted cases. Select min/max tool counts, cover named features, then round-robin across four tool-count strata in seeded hash order.",
+  "eligible": [
+    "web_search_no_snippet_0",
+    "web_search_no_snippet_11",
+    "web_search_no_snippet_14",
+    "web_search_no_snippet_15",
+    "web_search_no_snippet_17",
+    "web_search_no_snippet_18",
+    "web_search_no_snippet_19",
+    "web_search_no_snippet_22",
+    "web_search_no_snippet_23",
+    "web_search_no_snippet_24",
+    "web_search_no_snippet_25",
+    "web_search_no_snippet_26",
+    "web_search_no_snippet_28",
+    "web_search_no_snippet_29",
+    "web_search_no_snippet_31",
+    "web_search_no_snippet_32",
+    "web_search_no_snippet_33",
+    "web_search_no_snippet_34",
+    "web_search_no_snippet_35",
+    "web_search_no_snippet_36",
+    "web_search_no_snippet_37",
+    "web_search_no_snippet_38",
+    "web_search_no_snippet_39",
+    "web_search_no_snippet_41",
+    "web_search_no_snippet_42",
+    "web_search_no_snippet_43",
+    "web_search_no_snippet_44",
+    "web_search_no_snippet_45",
+    "web_search_no_snippet_46",
+    "web_search_no_snippet_48",
+    "web_search_no_snippet_50",
+    "web_search_no_snippet_51",
+    "web_search_no_snippet_54",
+    "web_search_no_snippet_55",
+    "web_search_no_snippet_56",
+    "web_search_no_snippet_57",
+    "web_search_no_snippet_61",
+    "web_search_no_snippet_63",
+    "web_search_no_snippet_66",
+    "web_search_no_snippet_67",
+    "web_search_no_snippet_69",
+    "web_search_no_snippet_70",
+    "web_search_no_snippet_71",
+    "web_search_no_snippet_72",
+    "web_search_no_snippet_74",
+    "web_search_no_snippet_76",
+    "web_search_no_snippet_77",
+    "web_search_no_snippet_78",
+    "web_search_no_snippet_79",
+    "web_search_no_snippet_80",
+    "web_search_no_snippet_81",
+    "web_search_no_snippet_83",
+    "web_search_no_snippet_84",
+    "web_search_no_snippet_85",
+    "web_search_no_snippet_86",
+    "web_search_no_snippet_88",
+    "web_search_no_snippet_89",
+    "web_search_no_snippet_91",
+    "web_search_no_snippet_92",
+    "web_search_no_snippet_93",
+    "web_search_no_snippet_94",
+    "web_search_no_snippet_95",
+    "web_search_no_snippet_96",
+    "web_search_no_snippet_97",
+    "web_search_no_snippet_98"
+  ],
+  "cases": [
+    {
+      "caseId": "web_search_no_snippet_14",
+      "taskId": "web_search_no_snippet_14-r1-direct-c1-copy1",
+      "toolCalls": 0,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_15",
+      "taskId": "web_search_no_snippet_15-r1-direct-c1-copy1",
+      "toolCalls": 8,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_17",
+      "taskId": "web_search_no_snippet_17-r1-direct-c1-copy1",
+      "toolCalls": 16,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_18",
+      "taskId": "web_search_no_snippet_18-r1-direct-c1-copy1",
+      "toolCalls": 100,
+      "status": "completed",
+      "valid": false,
+      "features": [
+        "empty_search",
+        "fetch_error",
+        "fetch_truncate",
+        "incorrect"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_23",
+      "taskId": "web_search_no_snippet_23-r1-direct-c1-copy1",
+      "toolCalls": 0,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_28",
+      "taskId": "web_search_no_snippet_28-r1-direct-c1-copy1",
+      "toolCalls": 8,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_29",
+      "taskId": "web_search_no_snippet_29-r1-direct-c1-copy1",
+      "toolCalls": 1,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_31",
+      "taskId": "web_search_no_snippet_31-r1-direct-c1-copy1",
+      "toolCalls": 5,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_32",
+      "taskId": "web_search_no_snippet_32-r1-direct-c1-copy1",
+      "toolCalls": 0,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_33",
+      "taskId": "web_search_no_snippet_33-r1-direct-c1-copy1",
+      "toolCalls": 0,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_34",
+      "taskId": "web_search_no_snippet_34-r1-direct-c1-copy1",
+      "toolCalls": 2,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_35",
+      "taskId": "web_search_no_snippet_35-r1-direct-c1-copy1",
+      "toolCalls": 0,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_36",
+      "taskId": "web_search_no_snippet_36-r1-direct-c1-copy1",
+      "toolCalls": 3,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_38",
+      "taskId": "web_search_no_snippet_38-r1-direct-c1-copy1",
+      "toolCalls": 5,
+      "status": "terminated",
+      "terminationReason": "model_input_limit",
+      "features": [
+        "fetch_error",
+        "fetch_markdown",
+        "fetch_truncate",
+        "input_limit"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_39",
+      "taskId": "web_search_no_snippet_39-r1-direct-c1-copy1",
+      "toolCalls": 9,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_42",
+      "taskId": "web_search_no_snippet_42-r1-direct-c1-copy1",
+      "toolCalls": 0,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_43",
+      "taskId": "web_search_no_snippet_43-r1-direct-c1-copy1",
+      "toolCalls": 1,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_44",
+      "taskId": "web_search_no_snippet_44-r1-direct-c1-copy1",
+      "toolCalls": 2,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_46",
+      "taskId": "web_search_no_snippet_46-r1-direct-c1-copy1",
+      "toolCalls": 1,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_48",
+      "taskId": "web_search_no_snippet_48-r1-direct-c1-copy1",
+      "toolCalls": 6,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_50",
+      "taskId": "web_search_no_snippet_50-r1-direct-c1-copy1",
+      "toolCalls": 1,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_51",
+      "taskId": "web_search_no_snippet_51-r1-direct-c1-copy1",
+      "toolCalls": 3,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_54",
+      "taskId": "web_search_no_snippet_54-r1-direct-c1-copy1",
+      "toolCalls": 12,
+      "status": "completed",
+      "valid": false,
+      "features": [
+        "fetch_error",
+        "fetch_truncate",
+        "incorrect"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_55",
+      "taskId": "web_search_no_snippet_55-r1-direct-c1-copy1",
+      "toolCalls": 5,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_56",
+      "taskId": "web_search_no_snippet_56-r1-direct-c1-copy1",
+      "toolCalls": 5,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_61",
+      "taskId": "web_search_no_snippet_61-r1-direct-c1-copy1",
+      "toolCalls": 3,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_63",
+      "taskId": "web_search_no_snippet_63-r1-direct-c1-copy1",
+      "toolCalls": 4,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_67",
+      "taskId": "web_search_no_snippet_67-r1-direct-c1-copy1",
+      "toolCalls": 92,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "empty_search",
+        "fetch_error",
+        "fetch_markdown",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_70",
+      "taskId": "web_search_no_snippet_70-r1-direct-c1-copy1",
+      "toolCalls": 11,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_71",
+      "taskId": "web_search_no_snippet_71-r1-direct-c1-copy1",
+      "toolCalls": 17,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_72",
+      "taskId": "web_search_no_snippet_72-r1-direct-c1-copy1",
+      "toolCalls": 24,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_76",
+      "taskId": "web_search_no_snippet_76-r1-direct-c1-copy1",
+      "toolCalls": 13,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_markdown",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_77",
+      "taskId": "web_search_no_snippet_77-r1-direct-c1-copy1",
+      "toolCalls": 9,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_truncate"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_78",
+      "taskId": "web_search_no_snippet_78-r1-direct-c1-copy1",
+      "toolCalls": 18,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_81",
+      "taskId": "web_search_no_snippet_81-r1-direct-c1-copy1",
+      "toolCalls": 24,
+      "status": "completed",
+      "valid": false,
+      "features": [
+        "fetch_error",
+        "fetch_truncate",
+        "incorrect"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_83",
+      "taskId": "web_search_no_snippet_83-r1-direct-c1-copy1",
+      "toolCalls": 1,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_85",
+      "taskId": "web_search_no_snippet_85-r1-direct-c1-copy1",
+      "toolCalls": 14,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "empty_search",
+        "fetch_error",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_91",
+      "taskId": "web_search_no_snippet_91-r1-direct-c1-copy1",
+      "toolCalls": 5,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_93",
+      "taskId": "web_search_no_snippet_93-r1-direct-c1-copy1",
+      "toolCalls": 2,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct"
+      ],
+      "redacted": false
+    },
+    {
+      "caseId": "web_search_no_snippet_94",
+      "taskId": "web_search_no_snippet_94-r1-direct-c1-copy1",
+      "toolCalls": 22,
+      "status": "completed",
+      "valid": true,
+      "features": [
+        "correct",
+        "fetch_error",
+        "fetch_markdown"
+      ],
+      "redacted": false
+    }
+  ]
+}

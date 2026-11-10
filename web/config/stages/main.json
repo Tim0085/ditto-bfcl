@@ -1,0 +1,437 @@
+{
+  "version": 1,
+  "seed": 2026,
+  "rounds": 1,
+  "blockSize": 50,
+  "python": "python",
+  "egress": {
+    "version": 1,
+    "backend": "fixtures",
+    "mode": "offline-reference",
+    "debug": true,
+    "settings": {
+      "profile": "deepseek",
+      "model": {
+        "protocol": "chat-completions",
+        "baseUrl": "",
+        "baseUrlEnv": "BFCL_BASE_URL",
+        "apiKeyEnv": "BFCL_API_KEY",
+        "model": "deepseek-flash",
+        "reasoningEffort": "high",
+        "maxOutputTokens": 65536,
+        "maxInputTokens": 32768,
+        "maxRequestBytes": 1887436,
+        "timeoutMs": 600000,
+        "referencePrice": {
+          "inputPerMillion": 0.3,
+          "outputPerMillion": 1.2
+        }
+      },
+      "budget": {
+        "referenceUsd": 1000000000,
+        "maxRequests": 10000000
+      }
+    },
+    "searchPath": "/v1/tools/search",
+    "searchMaxRequests": 10000000,
+    "searchCny": 50000,
+    "searchDispatch": {
+      "maxInFlight": 81,
+      "requestsPerMinute": 6000
+    },
+    "perTaskRequests": 100,
+    "retryPolicy": {
+      "maxRetries": 2
+    },
+    "dispatchPolicy": {
+      "maxInFlight": 81,
+      "requestsPerMinute": 6000,
+      "minIntervalMs": 10,
+      "maxCooldownMs": 900000
+    },
+    "replay": {
+      "source": "../../bfcl_direct/runs/multiturn-full800-001",
+      "index": "runs/offline/replay-index/index.json",
+      "failOnDifference": true
+    }
+  },
+  "endpoint": {
+    "host": "127.0.0.1",
+    "port": 0
+  },
+  "sampling": {
+    "enabled": true,
+    "strict": false,
+    "expected": {
+      "cpuMax": "200000 100000",
+      "memoryMax": "4294967296",
+      "swapMax": "0"
+    },
+    "intervalMs": 200,
+    "processIntervalMs": 1000
+  },
+  "startupConcurrency": 4,
+  "stall": {
+    "idleMs": 900000,
+    "stopGraceMs": 30000,
+    "pollMs": 1000
+  },
+  "score": {
+    "timeoutMs": 120000,
+    "concurrency": 4
+  },
+  "hostSampleMs": 2000,
+  "runId": "main-001",
+  "stage": "main",
+  "targetedSplit": "TARGETED_SPLIT_REQUIRED.json",
+  "configs": [
+    {
+      "id": "direct-c1",
+      "group": "Direct",
+      "c": 1,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-1-c1",
+      "group": "Monolithic",
+      "c": 1,
+      "copies": {
+        "All": 1
+      },
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-8-c1",
+      "group": "Monolithic",
+      "c": 1,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c1",
+      "group": "Uniform",
+      "c": 1,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c1",
+      "group": "Targeted",
+      "c": 1,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "direct-c4",
+      "group": "Direct",
+      "c": 4,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-4-c4",
+      "group": "Monolithic",
+      "c": 4,
+      "copies": {
+        "All": 4
+      },
+      "comparison": [
+        "direct",
+        "cost"
+      ]
+    },
+    {
+      "id": "mono-8-c4",
+      "group": "Monolithic",
+      "c": 4,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c4",
+      "group": "Uniform",
+      "c": 4,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c4",
+      "group": "Targeted",
+      "c": 4,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-16-c4",
+      "group": "Uniform",
+      "c": 4,
+      "copies": {
+        "Context": 4,
+        "Infer": 4,
+        "Interaction": 4,
+        "Memory": 4
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "targeted-10-c4",
+      "group": "Targeted",
+      "c": 4,
+      "copies": {
+        "Context": 1,
+        "Infer": 4,
+        "Interaction": 4,
+        "Memory": 1
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "direct-c8",
+      "group": "Direct",
+      "c": 8,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-8-c8",
+      "group": "Monolithic",
+      "c": 8,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "direct",
+        "cost",
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c8",
+      "group": "Uniform",
+      "c": 8,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c8",
+      "group": "Targeted",
+      "c": 8,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-32-c8",
+      "group": "Uniform",
+      "c": 8,
+      "copies": {
+        "Context": 8,
+        "Infer": 8,
+        "Interaction": 8,
+        "Memory": 8
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "targeted-18-c8",
+      "group": "Targeted",
+      "c": 8,
+      "copies": {
+        "Context": 1,
+        "Infer": 8,
+        "Interaction": 8,
+        "Memory": 1
+      },
+      "comparison": [
+        "cost"
+      ]
+    }
+  ],
+  "batches": [
+    {
+      "id": "main",
+      "configs": [
+        "direct-c1",
+        "mono-1-c1",
+        "mono-8-c1",
+        "uniform-8-c1",
+        "targeted-8-c1",
+        "direct-c4",
+        "mono-4-c4",
+        "mono-8-c4",
+        "uniform-8-c4",
+        "targeted-8-c4",
+        "uniform-16-c4",
+        "targeted-10-c4",
+        "direct-c8",
+        "mono-8-c8",
+        "uniform-8-c8",
+        "targeted-8-c8",
+        "uniform-32-c8",
+        "targeted-18-c8"
+      ],
+      "caseIds": [
+        "web_search_no_snippet_0",
+        "web_search_no_snippet_1",
+        "web_search_no_snippet_2",
+        "web_search_no_snippet_3",
+        "web_search_no_snippet_4",
+        "web_search_no_snippet_5",
+        "web_search_no_snippet_6",
+        "web_search_no_snippet_7",
+        "web_search_no_snippet_8",
+        "web_search_no_snippet_9",
+        "web_search_no_snippet_10",
+        "web_search_no_snippet_11",
+        "web_search_no_snippet_12",
+        "web_search_no_snippet_13",
+        "web_search_no_snippet_14",
+        "web_search_no_snippet_15",
+        "web_search_no_snippet_16",
+        "web_search_no_snippet_17",
+        "web_search_no_snippet_18",
+        "web_search_no_snippet_19",
+        "web_search_no_snippet_20",
+        "web_search_no_snippet_21",
+        "web_search_no_snippet_22",
+        "web_search_no_snippet_23",
+        "web_search_no_snippet_24",
+        "web_search_no_snippet_25",
+        "web_search_no_snippet_26",
+        "web_search_no_snippet_27",
+        "web_search_no_snippet_28",
+        "web_search_no_snippet_29",
+        "web_search_no_snippet_30",
+        "web_search_no_snippet_31",
+        "web_search_no_snippet_32",
+        "web_search_no_snippet_33",
+        "web_search_no_snippet_34",
+        "web_search_no_snippet_35",
+        "web_search_no_snippet_36",
+        "web_search_no_snippet_37",
+        "web_search_no_snippet_38",
+        "web_search_no_snippet_39",
+        "web_search_no_snippet_40",
+        "web_search_no_snippet_41",
+        "web_search_no_snippet_42",
+        "web_search_no_snippet_43",
+        "web_search_no_snippet_44",
+        "web_search_no_snippet_45",
+        "web_search_no_snippet_46",
+        "web_search_no_snippet_47",
+        "web_search_no_snippet_48",
+        "web_search_no_snippet_49",
+        "web_search_no_snippet_50",
+        "web_search_no_snippet_51",
+        "web_search_no_snippet_52",
+        "web_search_no_snippet_53",
+        "web_search_no_snippet_54",
+        "web_search_no_snippet_55",
+        "web_search_no_snippet_56",
+        "web_search_no_snippet_57",
+        "web_search_no_snippet_58",
+        "web_search_no_snippet_59",
+        "web_search_no_snippet_60",
+        "web_search_no_snippet_61",
+        "web_search_no_snippet_62",
+        "web_search_no_snippet_63",
+        "web_search_no_snippet_64",
+        "web_search_no_snippet_65",
+        "web_search_no_snippet_66",
+        "web_search_no_snippet_67",
+        "web_search_no_snippet_68",
+        "web_search_no_snippet_69",
+        "web_search_no_snippet_70",
+        "web_search_no_snippet_71",
+        "web_search_no_snippet_72",
+        "web_search_no_snippet_73",
+        "web_search_no_snippet_74",
+        "web_search_no_snippet_75",
+        "web_search_no_snippet_76",
+        "web_search_no_snippet_77",
+        "web_search_no_snippet_78",
+        "web_search_no_snippet_79",
+        "web_search_no_snippet_80",
+        "web_search_no_snippet_81",
+        "web_search_no_snippet_82",
+        "web_search_no_snippet_83",
+        "web_search_no_snippet_84",
+        "web_search_no_snippet_85",
+        "web_search_no_snippet_86",
+        "web_search_no_snippet_87",
+        "web_search_no_snippet_88",
+        "web_search_no_snippet_89",
+        "web_search_no_snippet_90",
+        "web_search_no_snippet_91",
+        "web_search_no_snippet_92",
+        "web_search_no_snippet_93",
+        "web_search_no_snippet_94",
+        "web_search_no_snippet_95",
+        "web_search_no_snippet_96",
+        "web_search_no_snippet_97",
+        "web_search_no_snippet_98",
+        "web_search_no_snippet_99"
+      ]
+    }
+  ],
+  "prices": {
+    "source": "bfcl_direct/config/deepseek.pricing.json historical frozen scenario, not current billing",
+    "date": "2026-10-26",
+    "valley": {
+      "cachedInput": 0.02,
+      "uncachedInput": 1,
+      "output": 4
+    },
+    "peak": {
+      "cachedInput": 0.04,
+      "uncachedInput": 2,
+      "output": 8
+    }
+  }
+}

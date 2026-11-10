@@ -1,0 +1,1 @@
+{"version":3,"file":"default.d.ts","sourceRoot":"","sources":["../../../../../src/worker/context/select/strategies/default.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,iCAAiC,CAAC;AACnE,OAAO,KAAK,EAAE,kBAAkB,EAAE,MAAM,aAAa,CAAC;AAgBtD,iFAAiF;AACjF,wBAAsB,aAAa,CAAC,KAAK,EAAE,kBAAkB,GAAG,OAAO,CAAC,SAAS,WAAW,EAAE,CAAC,CAwB9F"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"node-scaffold.js","sourceRoot":"","sources":["../../src/worker/node-scaffold.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,UAAU,EAA0D,MAAM,WAAW,CAAC;AAW/F,MAAM,UAAU,kBAAkB,CAA2B,IAAO;IAClE,OAAO,MAAM,CAAC,MAAM,CAAC;QACnB,IAAI;QACJ,MAAM,CAA+B,UAAsB,EAAE,OAA6B;YACxF,OAAO,UAAU,CAAC,UAAU,EAAE,IAAI,EAAE,OAAO,CAAC,CAAC;QAC/C,CAAC;KACF,CAAC,CAAC;AACL,CAAC"}

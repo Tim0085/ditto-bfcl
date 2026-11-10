@@ -1,0 +1,368 @@
+{
+  "version": 1,
+  "seed": 20261105,
+  "rounds": 3,
+  "blockSize": 50,
+  "python": "E:/Anaconda3/python.exe",
+  "egress": {
+    "version": 1,
+    "backend": "live",
+    "mode": "live",
+    "debug": true,
+    "settings": {
+      "profile": "deepseek",
+      "model": {
+        "protocol": "chat-completions",
+        "baseUrl": "",
+        "baseUrlEnv": "BFCL_BASE_URL",
+        "apiKeyEnv": "BFCL_API_KEY",
+        "model": "deepseek-flash",
+        "reasoningEffort": "high",
+        "maxOutputTokens": 65536,
+        "maxInputTokens": 32768,
+        "maxRequestBytes": 8388608,
+        "timeoutMs": 600000,
+        "referencePrice": {
+          "inputPerMillion": null,
+          "outputPerMillion": null
+        }
+      },
+      "budget": {
+        "referenceUsd": null,
+        "maxRequests": null,
+        "referenceCny": null,
+        "peakCnyPerMillion": {
+          "cachedInput": null,
+          "uncachedInput": null,
+          "output": null
+        }
+      }
+    },
+    "perTaskRequests": 100,
+    "retryPolicy": {
+      "maxRetries": 2
+    },
+    "dispatchPolicy": {
+      "maxInFlight": 81,
+      "requestsPerMinute": 6000,
+      "minIntervalMs": 10,
+      "maxCooldownMs": 900000
+    }
+  },
+  "endpoint": {
+    "host": "127.0.0.1",
+    "port": 0
+  },
+  "sampling": {
+    "enabled": true,
+    "strict": true,
+    "expected": {
+      "cpuMax": "200000 100000",
+      "memoryMax": "4294967296",
+      "swapMax": "0"
+    },
+    "intervalMs": 200,
+    "processIntervalMs": 1000
+  },
+  "startupConcurrency": 4,
+  "stall": {
+    "idleMs": 900000,
+    "stopGraceMs": 30000,
+    "pollMs": 1000
+  },
+  "score": {
+    "timeoutMs": 120000,
+    "concurrency": 4
+  },
+  "hostSampleMs": 2000,
+  "runId": "live-main-001",
+  "stage": "live-main",
+  "targetedSplit": "TARGETED_SPLIT_REQUIRED.json",
+  "configs": [
+    {
+      "id": "direct-c1",
+      "group": "Direct",
+      "c": 1,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-1-c1",
+      "group": "Monolithic",
+      "c": 1,
+      "copies": {
+        "All": 1
+      },
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-8-c1",
+      "group": "Monolithic",
+      "c": 1,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c1",
+      "group": "Uniform",
+      "c": 1,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c1",
+      "group": "Targeted",
+      "c": 1,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "direct-c4",
+      "group": "Direct",
+      "c": 4,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-4-c4",
+      "group": "Monolithic",
+      "c": 4,
+      "copies": {
+        "All": 4
+      },
+      "comparison": [
+        "direct",
+        "cost"
+      ]
+    },
+    {
+      "id": "mono-8-c4",
+      "group": "Monolithic",
+      "c": 4,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c4",
+      "group": "Uniform",
+      "c": 4,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c4",
+      "group": "Targeted",
+      "c": 4,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-16-c4",
+      "group": "Uniform",
+      "c": 4,
+      "copies": {
+        "Context": 4,
+        "Infer": 4,
+        "Interaction": 4,
+        "Memory": 4
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "targeted-7-c4",
+      "group": "Targeted",
+      "c": 4,
+      "copies": {
+        "Context": 1,
+        "Infer": 4,
+        "Interaction": 1,
+        "Memory": 1
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "direct-c8",
+      "group": "Direct",
+      "c": 8,
+      "comparison": [
+        "direct"
+      ]
+    },
+    {
+      "id": "mono-8-c8",
+      "group": "Monolithic",
+      "c": 8,
+      "copies": {
+        "All": 8
+      },
+      "comparison": [
+        "direct",
+        "cost",
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-8-c8",
+      "group": "Uniform",
+      "c": 8,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "targeted-8-c8",
+      "group": "Targeted",
+      "c": 8,
+      "copies": "profile",
+      "comparison": [
+        "equal"
+      ]
+    },
+    {
+      "id": "uniform-32-c8",
+      "group": "Uniform",
+      "c": 8,
+      "copies": {
+        "Context": 8,
+        "Infer": 8,
+        "Interaction": 8,
+        "Memory": 8
+      },
+      "comparison": [
+        "cost"
+      ]
+    },
+    {
+      "id": "targeted-11-c8",
+      "group": "Targeted",
+      "c": 8,
+      "copies": {
+        "Context": 1,
+        "Infer": 8,
+        "Interaction": 1,
+        "Memory": 1
+      },
+      "comparison": [
+        "cost"
+      ]
+    }
+  ],
+  "batches": [
+    {
+      "id": "main",
+      "configs": [
+        "direct-c1",
+        "mono-1-c1",
+        "mono-8-c1",
+        "uniform-8-c1",
+        "targeted-8-c1",
+        "direct-c4",
+        "mono-4-c4",
+        "mono-8-c4",
+        "uniform-8-c4",
+        "targeted-8-c4",
+        "uniform-16-c4",
+        "targeted-7-c4",
+        "direct-c8",
+        "mono-8-c8",
+        "uniform-8-c8",
+        "targeted-8-c8",
+        "uniform-32-c8",
+        "targeted-11-c8"
+      ],
+      "caseIds": "all",
+      "lanes": [
+        [
+          [
+            "direct-c1",
+            "mono-1-c1",
+            "mono-8-c1",
+            "uniform-8-c1",
+            "targeted-8-c1"
+          ]
+        ],
+        [
+          [
+            "direct-c4",
+            "mono-4-c4",
+            "mono-8-c4",
+            "uniform-8-c4",
+            "targeted-8-c4",
+            "uniform-16-c4",
+            "targeted-7-c4"
+          ],
+          [
+            "direct-c8",
+            "mono-8-c8",
+            "uniform-8-c8",
+            "targeted-8-c8",
+            "uniform-32-c8",
+            "targeted-11-c8"
+          ]
+        ]
+      ]
+    }
+  ],
+  "prices": {
+    "source": null,
+    "date": null,
+    "valley": {
+      "cachedInput": null,
+      "uncachedInput": null,
+      "output": null
+    },
+    "peak": {
+      "cachedInput": null,
+      "uncachedInput": null,
+      "output": null
+    }
+  },
+  "launcher": {
+    "kind": "docker",
+    "tag": "exp1-v3",
+    "runtime": {
+      "clockTicks": 100,
+      "pageBytes": 4096
+    }
+  }
+}

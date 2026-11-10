@@ -1,0 +1,150 @@
+const absolutePathInError = /(?:^|\s|\(|"|')(?:[A-Za-z]:[\\/]|\\\\[^\\/\s]+[\\/]|\/[^/\s])/;
+const stackFrameInError = /(?:^|\s)at\s+(?:async\s+)?(?:[^()\s]+\s+\()?[^()\s]+\.[cm]?[jt]sx?:\d+(?::\d+)?\)?(?:\s|$)/i;
+export function nonempty(value, name) {
+    if (typeof value !== "string" || !value.trim())
+        throw new Error(`${name} must be a nonempty string`);
+}
+function object(value, name) {
+    if (!value || typeof value !== "object" || Array.isArray(value))
+        throw new Error(`${name} must be an object`);
+}
+export function jsonValue(value, name, seen = new Set()) {
+    if (value === null || typeof value === "string" || typeof value === "boolean")
+        return;
+    if (typeof value === "number" && Number.isFinite(value))
+        return;
+    if (typeof value !== "object")
+        throw new Error(`${name} must be JSON-serializable`);
+    if (!Array.isArray(value) && Object.getPrototypeOf(value) !== Object.prototype && Object.getPrototypeOf(value) !== null) {
+        throw new Error(`${name} must contain only JSON objects and arrays`);
+    }
+    if (seen.has(value))
+        throw new Error(`${name} must not contain a cycle`);
+    seen.add(value);
+    for (const [key, item] of Object.entries(value))
+        jsonValue(item, `${name}.${key}`, seen);
+    seen.delete(value);
+}
+export function validateMcpInput(value) {
+    object(value, "MCP input");
+    if (value.operation === "discover") {
+        if (value.server !== undefined)
+            nonempty(value.server, "server");
+    }
+    else if (value.operation === "invoke") {
+        nonempty(value.server, "server");
+        object(value.call, "call");
+        nonempty(value.call.id, "call.id");
+        nonempty(value.call.name, "call.name");
+        object(value.call.arguments, "call.arguments");
+        jsonValue(value.call.arguments, "call.arguments");
+    }
+    else
+        throw new Error("Invalid MCP operation");
+}
+function artifacts(value) {
+    if (!Array.isArray(value))
+        throw new Error("artifacts must be an array");
+    for (const artifact of value) {
+        object(artifact, "artifact");
+        nonempty(artifact.name, "artifact.name");
+        object(artifact.reference, "artifact.reference");
+        nonempty(artifact.reference.uri, "artifact.reference.uri");
+        for (const key of ["mediaType", "digest"]) {
+            if (artifact.reference[key] !== undefined && typeof artifact.reference[key] !== "string")
+                throw new Error(`artifact.reference.${key} must be a string`);
+        }
+    }
+}
+export function validateOutputInput(value) {
+    object(value, "OUTPUT input");
+    nonempty(value.deliveryId, "deliveryId");
+    object(value.message, "message");
+    if (!["system", "user", "assistant", "tool"].includes(value.message.role))
+        throw new Error("Invalid message role");
+    if (!Object.hasOwn(value.message, "content"))
+        throw new Error("message.content is required");
+    jsonValue(value.message.content, "message.content");
+    if (value.message.name !== undefined && typeof value.message.name !== "string")
+        throw new Error("message.name must be a string");
+    if (value.artifacts !== undefined)
+        artifacts(value.artifacts);
+}
+export function interactionError(value) {
+    if (!value || typeof value !== "object")
+        throw new Error("Interaction error is required");
+    const error = value;
+    nonempty(error.code, "error.code");
+    nonempty(error.message, "error.message");
+    if (error.code.length > 64 || !/^[A-Za-z0-9_.-]+$/.test(error.code))
+        throw new Error("Invalid error code");
+    if (error.message.length > 512
+        || /[\r\n\x00-\x1f]|Bearer\s|sk-[A-Za-z0-9]/i.test(error.message)
+        || absolutePathInError.test(error.message)
+        || stackFrameInError.test(error.message))
+        throw new Error("Unsafe interaction error message");
+    if (error.retryable !== undefined && typeof error.retryable !== "boolean")
+        throw new Error("error.retryable must be boolean");
+    return { code: error.code, message: error.message,
+        ...(error.retryable === undefined ? {} : { retryable: error.retryable }) };
+}
+export function externalResult(value, errorFallback) {
+    if (!value || typeof value !== "object")
+        throw new Error("External result is required");
+    const result = value;
+    nonempty(result.callId, "callId");
+    nonempty(result.source, "source");
+    if (!["success", "failed", "cancelled", "timeout", "unknown"].includes(String(result.status)))
+        throw new Error("Invalid external result status");
+    if (result.status === "success") {
+        if (result.content === undefined && result.structuredContent === undefined && result.references === undefined)
+            throw new Error("Successful external result has no content");
+    }
+    else if (result.error === undefined && errorFallback === undefined)
+        interactionError(result.error);
+    let error;
+    if (result.error !== undefined) {
+        try {
+            error = interactionError(result.error);
+        }
+        catch (cause) {
+            if (errorFallback === undefined)
+                throw cause;
+            error = errorFallback;
+        }
+    }
+    else if (result.status !== "success")
+        error = errorFallback;
+    for (const field of ["content", "structuredContent", "metadata"]) {
+        if (result[field] !== undefined)
+            jsonValue(result[field], field);
+    }
+    if (result.references !== undefined) {
+        if (!Array.isArray(result.references))
+            throw new Error("references must be an array");
+        for (const reference of result.references) {
+            if (!reference || typeof reference !== "object")
+                throw new Error("Invalid reference");
+            nonempty(reference.uri, "reference.uri");
+        }
+    }
+    return error === undefined ? value : { ...result, error };
+}
+export function outputReceipt(value) {
+    object(value, "Output receipt");
+    const receipt = value;
+    nonempty(receipt.deliveryId, "deliveryId");
+    if (!["accepted", "rejected", "unknown"].includes(receipt.status))
+        throw new Error("Invalid output status");
+    if (receipt.status !== "accepted" && receipt.error === undefined)
+        interactionError(receipt.error);
+    const error = receipt.error === undefined ? undefined : interactionError(receipt.error);
+    if (receipt.metadata !== undefined) {
+        object(receipt.metadata, "metadata");
+        jsonValue(receipt.metadata, "metadata");
+    }
+    if (receipt.artifacts !== undefined)
+        artifacts(receipt.artifacts);
+    return (error === undefined ? receipt : { ...receipt, error });
+}
+//# sourceMappingURL=validation.js.map

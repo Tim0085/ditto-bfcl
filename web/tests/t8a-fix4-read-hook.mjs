@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import fsp from 'node:fs/promises';
+import {syncBuiltinESMExports} from 'node:module';
+import {fileURLToPath} from 'node:url';
+import {resolve} from 'node:path';
+const file=process.env.T8A_FIX4_READ_TRACE;
+const record=p=>{if(typeof p==='number')return;const path=p instanceof URL?fileURLToPath(p):resolve(String(p));fs.appendFileSync(file,JSON.stringify({pid:process.pid,path})+'\n');if(/^[cC]:/.test(path))throw Error('Unexpected C drive file read: '+path);};
+const sync=fs.readFileSync,async=fs.readFile,promise=fsp.readFile;
+fs.readFileSync=function(p,...rest){record(p);return sync.call(this,p,...rest);};
+fs.readFile=function(p,...rest){record(p);return async.call(this,p,...rest);};
+fsp.readFile=function(p,...rest){record(p);return promise.call(this,p,...rest);};
+syncBuiltinESMExports();

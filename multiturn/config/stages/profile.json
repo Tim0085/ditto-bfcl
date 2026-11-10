@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "seed": 20261105,
+  "rounds": 1,
+  "blockSize": 50,
+  "python": "python",
+  "egress": {
+    "version": 1,
+    "backend": "fixtures",
+    "mode": "offline-reference",
+    "debug": true,
+    "settings": {
+      "profile": "deepseek",
+      "model": {
+        "protocol": "chat-completions",
+        "baseUrl": "",
+        "baseUrlEnv": "BFCL_BASE_URL",
+        "apiKeyEnv": "BFCL_API_KEY",
+        "model": "deepseek-flash",
+        "reasoningEffort": "high",
+        "maxOutputTokens": 65536,
+        "maxInputTokens": 32768,
+        "maxRequestBytes": 8388608,
+        "timeoutMs": 600000,
+        "referencePrice": {
+          "inputPerMillion": 0.3,
+          "outputPerMillion": 1.2
+        }
+      },
+      "budget": {
+        "referenceUsd": 1000000000,
+        "maxRequests": 10000000
+      }
+    },
+    "perTaskRequests": 100,
+    "retryPolicy": {
+      "maxRetries": 2
+    },
+    "dispatchPolicy": {
+      "maxInFlight": 81,
+      "requestsPerMinute": 6000,
+      "minIntervalMs": 10,
+      "maxCooldownMs": 900000
+    },
+    "replay": {
+      "source": "../../bfcl_direct/runs/multiturn-full800-001",
+      "index": "runs/offline/replay-index/index.json",
+      "failOnDifference": true
+    }
+  },
+  "endpoint": {
+    "host": "127.0.0.1",
+    "port": 0
+  },
+  "sampling": {
+    "enabled": true,
+    "strict": false,
+    "expected": {
+      "cpuMax": "200000 100000",
+      "memoryMax": "4294967296",
+      "swapMax": "0"
+    },
+    "intervalMs": 200,
+    "processIntervalMs": 1000
+  },
+  "startupConcurrency": 4,
+  "stall": {
+    "idleMs": 900000,
+    "stopGraceMs": 30000,
+    "pollMs": 1000
+  },
+  "score": {
+    "timeoutMs": 120000,
+    "concurrency": 4
+  },
+  "hostSampleMs": 2000,
+  "runId": "profile-001",
+  "stage": "profile",
+  "configs": [
+    {
+      "id": "uniform-8-c1",
+      "group": "Uniform",
+      "c": 1,
+      "copies": {
+        "Context": 2,
+        "Infer": 2,
+        "Interaction": 2,
+        "Memory": 2
+      },
+      "comparison": [
+        "equal"
+      ]
+    }
+  ],
+  "batches": [
+    {
+      "id": "profile",
+      "configs": [
+        "uniform-8-c1"
+      ],
+      "caseIds": "profile"
+    }
+  ],
+  "prices": {
+    "source": "bfcl_direct/config/deepseek.pricing.json historical frozen scenario, not current billing",
+    "date": "2026-10-26",
+    "valley": {
+      "cachedInput": 0.02,
+      "uncachedInput": 1,
+      "output": 4
+    },
+    "peak": {
+      "cachedInput": 0.04,
+      "uncachedInput": 2,
+      "output": 8
+    }
+  }
+}

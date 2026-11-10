@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "status": "complete",
+  "sourceMode": "offline-reference",
+  "measurement": "示意分法，沿用 M 的 1/4/2/1 布局验证路由；真实分法由 Web 阶段 2a 产生。",
+  "byCategory": {
+    "web_search_no_snippet": {
+      "copies": {
+        "Context": 1,
+        "Infer": 4,
+        "Interaction": 2,
+        "Memory": 1
+      }
+    }
+  }
+}

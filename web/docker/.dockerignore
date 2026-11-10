@@ -1,0 +1,8 @@
+**/.env*
+**/private
+**/__pycache__
+**/*.pyc
+**/.git
+runs
+tests
+docs

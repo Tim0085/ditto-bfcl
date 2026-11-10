@@ -1,0 +1,2377 @@
+{
+  "version": 1,
+  "purpose": "T9 段 C 第 5.1 节选题：四关和附加检查用的 40 道题（四类各 10 道）",
+  "ruleText": {
+    "source": "F:/Academic/Ditto/experiments/sec1/docs/任务书/T9_端到端离线验证_付费入口_两条线.md",
+    "sha256": "5db3330063987c905b7da87bc1047b0d84d7354b19d09daa5e0d3cf79cb3832b",
+    "section51": "### 5.1 选题：40 道\n\n- 规则：四类分开，每类按主环境（`plan.ts` 的 `primary`）分层，用种子 20261105 打乱（和 `plan.ts` 同一个打乱函数），在各环境之间轮流取，取满 10 道。\n- 取完以后核对覆盖：只调 1 次工具的题；调很多次的题（定义写清，例如旧 Monolithic c1 这一类工具调用次数前 10%）；缺函数题里只放出新工具、没有用户原话的轮次；缺参数题里模型先问、用户下一轮再补的轮次；旧 Monolithic c1 里出现过的每一种单题终态（输出超限、请求超限、输入超限、模型输出出错），有几种就各至少 1 道。旧数据里根本没有的终态，写明\"没有\"。\n- 缺哪项，按一条写死的规则补：用同一类、同一环境打乱顺序里第一道满足这一项的题，换掉这个环境最后取的那道。\n- 选题规则、种子、结果、覆盖表写进 `config/t9-selection.json`，**冻结后再跑**，不许按好不好跑挑题。"
+  },
+  "rules": {
+    "seed": 20261105,
+    "seedString": {
+      "template": "`${seed}/${category}/${primary}`",
+      "example": "20261105/multi_turn_base/GorillaFileSystem",
+      "why": "plan.ts 第 82 行给每一类、每个主环境的打乱就是用 `${stage.seed}/${category}/${p}`；这里沿用同一拼法，只把种子换成 20261105。这样每个分层的打乱顺序，和一份 seed=20261105、caseIds=\"all\" 的阶段配置在 plan.ts 里得到的完全一样，前 10 道就是 blockSize=10 时每类的第一块；不另造新拼法。"
+    },
+    "stratify": "四类分开（plan.ts 的 categories 顺序）。每类全部 200 道题按包内题目文件原顺序（即 plan.ts catalog() 的顺序，同 caseIds=\"all\"）取出，按 plan.ts 的 primary 分到 GorillaFileSystem/VehicleControlAPI/TradingBot/TravelAPI 四个主环境（每道题恰好命中一个，否则报错）；每个主环境用 plan.ts 的 shuffle 和上面的种子串打乱；再按 primary 顺序在四个环境之间轮流取（同 plan.ts 第 84 行），取前 10 道。",
+    "toolCalls": "工具调用次数＝旧 Monolithic c1 单题记录里 completed 数组的长度（实际执行过的工具调用，整道题所有轮加起来）。另核对它和 modelSteps 里 actionRequests 总数是否一致，不一致的列在 stats 里。",
+    "items": {
+      "singleTool": "只调 1 次工具的题：旧 Monolithic c1 记录里这道题工具调用次数恰好是 1。每类分别核对（每类至少 1 道）。",
+      "manyTools": "调很多次的题：旧 Monolithic c1 记录里，这一类 200 道题按工具调用次数从大到小排，第 ceil(10%×200)=20 名的次数作门槛，次数 ≥ 门槛的都算（并列一起算）。每类分别核对（每类至少 1 道）。",
+      "missFuncToolOnlyTurn": "缺函数题里只放出新工具、没有用户原话的轮次：包内 multi_turn_miss_func 题目里，missed_function 的某个轮号 k 对应 question[k] 是空列表；并且旧 Monolithic c1 记录在第 k+1 轮（记录里轮号从 1 起）至少有 1 个模型步骤，即回放会走到这一轮。只在 multi_turn_miss_func 一类核对。",
+      "missParamAskThenSupply": "缺参数题里模型先问、用户下一轮再补的轮次：包内 multi_turn_miss_param 答案里 ground_truth[k] 是空列表（这一轮应先问、不调工具），并且 question[k+1] 不为空（用户下一轮补话）；并且旧 Monolithic c1 记录在第 k+1 轮和第 k+2 轮都至少有 1 个模型步骤，即回放会走过\"问\"和\"补\"两轮。只在 multi_turn_miss_param 一类核对。旧记录这一轮实际调了几次工具，列在覆盖表里作参考，不作条件。",
+      "terminal": "单题终态：旧 Monolithic c1 记录的 executionOutcome。四种：output_limit 输出超限、request_limit 请求超限、input_limit 输入超限、model_output 模型输出出错。旧 800 道里出现过的每一种，40 道里至少 1 道（不分类）；800 道里一次都没有的写\"没有\"。"
+    },
+    "supplement": [
+      "按固定顺序逐项核对：singleTool（四类按 categories 顺序）→ manyTools（同）→ missFuncToolOnlyTurn → missParamAskThenSupply → 终态（按 output_limit、request_limit、input_limit、model_output 的顺序，只核对旧数据里出现过的）。",
+      "某项不满足时：在该类的轮流取顺序（各环境打乱顺序交错后的完整序列）里从头往后找，跳过已选中的、已被换掉的，第一道满足这一项的题就是补进来的题；它属于哪个主环境，就换掉这一类里这个主环境按取出顺序最后取的那道。因为轮流序列里同一环境的先后就是该环境的打乱顺序，所以它也是\"同一类、同一环境打乱顺序里第一道满足这一项的题\"。",
+      "被换掉的题只从\"按轮流取进来、不是补进来的\"题里挑，并且不能是前面已核对通过的某一项在范围内唯一的满足者；最后一道不能换就往前一道。这个环境没有能换的，就看下一道满足的候选题。全找不到就记\"补不了\"。",
+      "不分类的项（终态）按 categories 顺序找第一类有候选的。补进来的题占被换掉那道的取出位置。",
+      "全部补完后在最终 40 道上重新算一遍覆盖表。"
+    ]
+  },
+  "caseIds": [
+    "multi_turn_base_11",
+    "multi_turn_base_70",
+    "multi_turn_base_144",
+    "multi_turn_base_179",
+    "multi_turn_base_21",
+    "multi_turn_base_86",
+    "multi_turn_base_107",
+    "multi_turn_base_180",
+    "multi_turn_base_12",
+    "multi_turn_base_62",
+    "multi_turn_miss_func_43",
+    "multi_turn_miss_func_67",
+    "multi_turn_miss_func_132",
+    "multi_turn_miss_func_163",
+    "multi_turn_miss_func_12",
+    "multi_turn_miss_func_76",
+    "multi_turn_miss_func_137",
+    "multi_turn_miss_func_186",
+    "multi_turn_miss_func_3",
+    "multi_turn_miss_func_69",
+    "multi_turn_miss_param_20",
+    "multi_turn_miss_param_78",
+    "multi_turn_miss_param_120",
+    "multi_turn_miss_param_158",
+    "multi_turn_miss_param_49",
+    "multi_turn_miss_param_57",
+    "multi_turn_miss_param_116",
+    "multi_turn_miss_param_192",
+    "multi_turn_miss_param_43",
+    "multi_turn_miss_param_66",
+    "multi_turn_long_context_40",
+    "multi_turn_long_context_87",
+    "multi_turn_long_context_104",
+    "multi_turn_long_context_190",
+    "multi_turn_long_context_15",
+    "multi_turn_long_context_91",
+    "multi_turn_long_context_121",
+    "multi_turn_long_context_196",
+    "multi_turn_long_context_10",
+    "multi_turn_long_context_96"
+  ],
+  "selection": {
+    "multi_turn_base": [
+      {
+        "caseId": "multi_turn_base_11",
+        "primary": "GorillaFileSystem",
+        "takenAt": 1,
+        "source": "round-robin",
+        "oldToolCalls": 4,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_70",
+        "primary": "VehicleControlAPI",
+        "takenAt": 2,
+        "source": "round-robin",
+        "oldToolCalls": 16,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_144",
+        "primary": "TradingBot",
+        "takenAt": 3,
+        "source": "round-robin",
+        "oldToolCalls": 3,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_179",
+        "primary": "TravelAPI",
+        "takenAt": 4,
+        "source": "round-robin",
+        "oldToolCalls": 12,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_21",
+        "primary": "GorillaFileSystem",
+        "takenAt": 5,
+        "source": "round-robin",
+        "oldToolCalls": 6,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_86",
+        "primary": "VehicleControlAPI",
+        "takenAt": 6,
+        "source": "round-robin",
+        "oldToolCalls": 11,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_107",
+        "primary": "TradingBot",
+        "takenAt": 7,
+        "source": "round-robin",
+        "oldToolCalls": 9,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_180",
+        "primary": "TravelAPI",
+        "takenAt": 8,
+        "source": "supplement",
+        "replaced": "multi_turn_base_197",
+        "step": 1,
+        "oldToolCalls": 18,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_12",
+        "primary": "GorillaFileSystem",
+        "takenAt": 9,
+        "source": "round-robin",
+        "oldToolCalls": 7,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_base_62",
+        "primary": "VehicleControlAPI",
+        "takenAt": 10,
+        "source": "round-robin",
+        "oldToolCalls": 15,
+        "oldExecutionOutcome": "completed"
+      }
+    ],
+    "multi_turn_miss_func": [
+      {
+        "caseId": "multi_turn_miss_func_43",
+        "primary": "GorillaFileSystem",
+        "takenAt": 1,
+        "source": "round-robin",
+        "oldToolCalls": 19,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_67",
+        "primary": "VehicleControlAPI",
+        "takenAt": 2,
+        "source": "round-robin",
+        "oldToolCalls": 16,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_132",
+        "primary": "TradingBot",
+        "takenAt": 3,
+        "source": "round-robin",
+        "oldToolCalls": 10,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_163",
+        "primary": "TravelAPI",
+        "takenAt": 4,
+        "source": "round-robin",
+        "oldToolCalls": 4,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_12",
+        "primary": "GorillaFileSystem",
+        "takenAt": 5,
+        "source": "round-robin",
+        "oldToolCalls": 16,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_76",
+        "primary": "VehicleControlAPI",
+        "takenAt": 6,
+        "source": "round-robin",
+        "oldToolCalls": 11,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_137",
+        "primary": "TradingBot",
+        "takenAt": 7,
+        "source": "round-robin",
+        "oldToolCalls": 19,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_186",
+        "primary": "TravelAPI",
+        "takenAt": 8,
+        "source": "supplement",
+        "replaced": "multi_turn_miss_func_161",
+        "step": 2,
+        "oldToolCalls": 29,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_func_3",
+        "primary": "GorillaFileSystem",
+        "takenAt": 9,
+        "source": "supplement",
+        "replaced": "multi_turn_miss_func_13",
+        "step": 3,
+        "oldToolCalls": 300,
+        "oldExecutionOutcome": "request_limit"
+      },
+      {
+        "caseId": "multi_turn_miss_func_69",
+        "primary": "VehicleControlAPI",
+        "takenAt": 10,
+        "source": "round-robin",
+        "oldToolCalls": 14,
+        "oldExecutionOutcome": "completed"
+      }
+    ],
+    "multi_turn_miss_param": [
+      {
+        "caseId": "multi_turn_miss_param_20",
+        "primary": "GorillaFileSystem",
+        "takenAt": 1,
+        "source": "round-robin",
+        "oldToolCalls": 13,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_78",
+        "primary": "VehicleControlAPI",
+        "takenAt": 2,
+        "source": "round-robin",
+        "oldToolCalls": 5,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_120",
+        "primary": "TradingBot",
+        "takenAt": 3,
+        "source": "round-robin",
+        "oldToolCalls": 22,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_158",
+        "primary": "TravelAPI",
+        "takenAt": 4,
+        "source": "round-robin",
+        "oldToolCalls": 17,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_49",
+        "primary": "GorillaFileSystem",
+        "takenAt": 5,
+        "source": "round-robin",
+        "oldToolCalls": 10,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_57",
+        "primary": "VehicleControlAPI",
+        "takenAt": 6,
+        "source": "round-robin",
+        "oldToolCalls": 4,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_116",
+        "primary": "TradingBot",
+        "takenAt": 7,
+        "source": "round-robin",
+        "oldToolCalls": 15,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_192",
+        "primary": "TravelAPI",
+        "takenAt": 8,
+        "source": "round-robin",
+        "oldToolCalls": 28,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_43",
+        "primary": "GorillaFileSystem",
+        "takenAt": 9,
+        "source": "round-robin",
+        "oldToolCalls": 6,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_miss_param_66",
+        "primary": "VehicleControlAPI",
+        "takenAt": 10,
+        "source": "round-robin",
+        "oldToolCalls": 11,
+        "oldExecutionOutcome": "completed"
+      }
+    ],
+    "multi_turn_long_context": [
+      {
+        "caseId": "multi_turn_long_context_40",
+        "primary": "GorillaFileSystem",
+        "takenAt": 1,
+        "source": "round-robin",
+        "oldToolCalls": 12,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_87",
+        "primary": "VehicleControlAPI",
+        "takenAt": 2,
+        "source": "round-robin",
+        "oldToolCalls": 10,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_104",
+        "primary": "TradingBot",
+        "takenAt": 3,
+        "source": "round-robin",
+        "oldToolCalls": 4,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_190",
+        "primary": "TravelAPI",
+        "takenAt": 4,
+        "source": "round-robin",
+        "oldToolCalls": 7,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_15",
+        "primary": "GorillaFileSystem",
+        "takenAt": 5,
+        "source": "round-robin",
+        "oldToolCalls": 8,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_91",
+        "primary": "VehicleControlAPI",
+        "takenAt": 6,
+        "source": "round-robin",
+        "oldToolCalls": 10,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_121",
+        "primary": "TradingBot",
+        "takenAt": 7,
+        "source": "round-robin",
+        "oldToolCalls": 35,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_196",
+        "primary": "TravelAPI",
+        "takenAt": 8,
+        "source": "round-robin",
+        "oldToolCalls": 16,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_10",
+        "primary": "GorillaFileSystem",
+        "takenAt": 9,
+        "source": "round-robin",
+        "oldToolCalls": 24,
+        "oldExecutionOutcome": "completed"
+      },
+      {
+        "caseId": "multi_turn_long_context_96",
+        "primary": "VehicleControlAPI",
+        "takenAt": 10,
+        "source": "round-robin",
+        "oldToolCalls": 13,
+        "oldExecutionOutcome": "completed"
+      }
+    ]
+  },
+  "initialRoundRobin": {
+    "multi_turn_base": [
+      {
+        "caseId": "multi_turn_base_11",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_base_70",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_base_144",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_base_179",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_base_21",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_base_86",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_base_107",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_base_197",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_base_12",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_base_62",
+        "primary": "VehicleControlAPI"
+      }
+    ],
+    "multi_turn_miss_func": [
+      {
+        "caseId": "multi_turn_miss_func_43",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_miss_func_67",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_func_132",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_miss_func_163",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_func_12",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_miss_func_76",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_func_137",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_miss_func_161",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_func_13",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_miss_func_69",
+        "primary": "VehicleControlAPI"
+      }
+    ],
+    "multi_turn_miss_param": [
+      {
+        "caseId": "multi_turn_miss_param_20",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_miss_param_78",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_param_120",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_miss_param_158",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_param_49",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_miss_param_57",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_param_116",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_miss_param_192",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_miss_param_43",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_miss_param_66",
+        "primary": "VehicleControlAPI"
+      }
+    ],
+    "multi_turn_long_context": [
+      {
+        "caseId": "multi_turn_long_context_40",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_long_context_87",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_long_context_104",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_long_context_190",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_long_context_15",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_long_context_91",
+        "primary": "VehicleControlAPI"
+      },
+      {
+        "caseId": "multi_turn_long_context_121",
+        "primary": "TradingBot"
+      },
+      {
+        "caseId": "multi_turn_long_context_196",
+        "primary": "TravelAPI"
+      },
+      {
+        "caseId": "multi_turn_long_context_10",
+        "primary": "GorillaFileSystem"
+      },
+      {
+        "caseId": "multi_turn_long_context_96",
+        "primary": "VehicleControlAPI"
+      }
+    ]
+  },
+  "supplementSteps": [
+    {
+      "step": 1,
+      "item": "manyTools:multi_turn_base",
+      "category": "multi_turn_base",
+      "primary": "TravelAPI",
+      "added": "multi_turn_base_180",
+      "addedPositionInRoundRobin": 32,
+      "addedPositionInEnvironmentShuffle": 8,
+      "removed": "multi_turn_base_197",
+      "removedTakenAt": 8,
+      "skippedVictims": [],
+      "skippedCandidates": []
+    },
+    {
+      "step": 2,
+      "item": "manyTools:multi_turn_miss_func",
+      "category": "multi_turn_miss_func",
+      "primary": "TravelAPI",
+      "added": "multi_turn_miss_func_186",
+      "addedPositionInRoundRobin": 12,
+      "addedPositionInEnvironmentShuffle": 3,
+      "removed": "multi_turn_miss_func_161",
+      "removedTakenAt": 8,
+      "skippedVictims": [],
+      "skippedCandidates": []
+    },
+    {
+      "step": 3,
+      "item": "terminal:request_limit",
+      "category": "multi_turn_miss_func",
+      "primary": "GorillaFileSystem",
+      "added": "multi_turn_miss_func_3",
+      "addedPositionInRoundRobin": 97,
+      "addedPositionInEnvironmentShuffle": 25,
+      "removed": "multi_turn_miss_func_13",
+      "removedTakenAt": 9,
+      "skippedVictims": [],
+      "skippedCandidates": []
+    }
+  ],
+  "coverage": [
+    {
+      "item": "singleTool:multi_turn_base",
+      "label": "只调 1 次工具",
+      "scope": "multi_turn_base",
+      "definition": "只调 1 次工具的题：旧 Monolithic c1 记录里这道题工具调用次数恰好是 1。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 0,
+      "satisfiedBy": [],
+      "satisfied": false,
+      "supplemented": false,
+      "result": "补不了：范围内旧记录里没有满足这一项的题"
+    },
+    {
+      "item": "singleTool:multi_turn_miss_func",
+      "label": "只调 1 次工具",
+      "scope": "multi_turn_miss_func",
+      "definition": "只调 1 次工具的题：旧 Monolithic c1 记录里这道题工具调用次数恰好是 1。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 0,
+      "satisfiedBy": [],
+      "satisfied": false,
+      "supplemented": false,
+      "result": "补不了：范围内旧记录里没有满足这一项的题"
+    },
+    {
+      "item": "singleTool:multi_turn_miss_param",
+      "label": "只调 1 次工具",
+      "scope": "multi_turn_miss_param",
+      "definition": "只调 1 次工具的题：旧 Monolithic c1 记录里这道题工具调用次数恰好是 1。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 0,
+      "satisfiedBy": [],
+      "satisfied": false,
+      "supplemented": false,
+      "result": "补不了：范围内旧记录里没有满足这一项的题"
+    },
+    {
+      "item": "singleTool:multi_turn_long_context",
+      "label": "只调 1 次工具",
+      "scope": "multi_turn_long_context",
+      "definition": "只调 1 次工具的题：旧 Monolithic c1 记录里这道题工具调用次数恰好是 1。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 0,
+      "satisfiedBy": [],
+      "satisfied": false,
+      "supplemented": false,
+      "result": "补不了：范围内旧记录里没有满足这一项的题"
+    },
+    {
+      "item": "manyTools:multi_turn_base",
+      "label": "调很多次（门槛 ≥ 18 次）",
+      "scope": "multi_turn_base",
+      "definition": "调很多次的题：旧 Monolithic c1 记录里，这一类 200 道题按工具调用次数从大到小排，第 ceil(10%×200)=20 名的次数作门槛，次数 ≥ 门槛的都算（并列一起算）。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 20,
+      "satisfiedBy": [
+        {
+          "caseId": "multi_turn_base_180",
+          "toolCalls": 18
+        }
+      ],
+      "satisfied": true,
+      "supplemented": true,
+      "result": "已补",
+      "step": 1
+    },
+    {
+      "item": "manyTools:multi_turn_miss_func",
+      "label": "调很多次（门槛 ≥ 28 次）",
+      "scope": "multi_turn_miss_func",
+      "definition": "调很多次的题：旧 Monolithic c1 记录里，这一类 200 道题按工具调用次数从大到小排，第 ceil(10%×200)=20 名的次数作门槛，次数 ≥ 门槛的都算（并列一起算）。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 20,
+      "satisfiedBy": [
+        {
+          "caseId": "multi_turn_miss_func_186",
+          "toolCalls": 29
+        },
+        {
+          "caseId": "multi_turn_miss_func_3",
+          "toolCalls": 300
+        }
+      ],
+      "satisfied": true,
+      "supplemented": true,
+      "result": "已补",
+      "step": 2
+    },
+    {
+      "item": "manyTools:multi_turn_miss_param",
+      "label": "调很多次（门槛 ≥ 22 次）",
+      "scope": "multi_turn_miss_param",
+      "definition": "调很多次的题：旧 Monolithic c1 记录里，这一类 200 道题按工具调用次数从大到小排，第 ceil(10%×200)=20 名的次数作门槛，次数 ≥ 门槛的都算（并列一起算）。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 21,
+      "satisfiedBy": [
+        {
+          "caseId": "multi_turn_miss_param_120",
+          "toolCalls": 22
+        },
+        {
+          "caseId": "multi_turn_miss_param_192",
+          "toolCalls": 28
+        }
+      ],
+      "satisfied": true,
+      "supplemented": false,
+      "result": "已满足"
+    },
+    {
+      "item": "manyTools:multi_turn_long_context",
+      "label": "调很多次（门槛 ≥ 18 次）",
+      "scope": "multi_turn_long_context",
+      "definition": "调很多次的题：旧 Monolithic c1 记录里，这一类 200 道题按工具调用次数从大到小排，第 ceil(10%×200)=20 名的次数作门槛，次数 ≥ 门槛的都算（并列一起算）。每类分别核对（每类至少 1 道）。",
+      "candidatesInScope": 22,
+      "satisfiedBy": [
+        {
+          "caseId": "multi_turn_long_context_121",
+          "toolCalls": 35
+        },
+        {
+          "caseId": "multi_turn_long_context_10",
+          "toolCalls": 24
+        }
+      ],
+      "satisfied": true,
+      "supplemented": false,
+      "result": "已满足"
+    },
+    {
+      "item": "missFuncToolOnlyTurn",
+      "label": "缺函数：只放出新工具、没有用户原话的轮次",
+      "scope": "multi_turn_miss_func",
+      "definition": "缺函数题里只放出新工具、没有用户原话的轮次：包内 multi_turn_miss_func 题目里，missed_function 的某个轮号 k 对应 question[k] 是空列表；并且旧 Monolithic c1 记录在第 k+1 轮（记录里轮号从 1 起）至少有 1 个模型步骤，即回放会走到这一轮。只在 multi_turn_miss_func 一类核对。",
+      "candidatesInScope": 199,
+      "satisfiedBy": [
+        {
+          "caseId": "multi_turn_miss_func_43",
+          "turns": [
+            5
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_67",
+          "turns": [
+            2
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_132",
+          "turns": [
+            2
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_163",
+          "turns": [
+            2
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_12",
+          "turns": [
+            2
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_76",
+          "turns": [
+            2
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_137",
+          "turns": [
+            2
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_186",
+          "turns": [
+            2
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_func_69",
+          "turns": [
+            2
+          ]
+        }
+      ],
+      "satisfied": true,
+      "supplemented": false,
+      "result": "已满足"
+    },
+    {
+      "item": "missParamAskThenSupply",
+      "label": "缺参数：模型先问、用户下一轮再补的轮次",
+      "scope": "multi_turn_miss_param",
+      "definition": "缺参数题里模型先问、用户下一轮再补的轮次：包内 multi_turn_miss_param 答案里 ground_truth[k] 是空列表（这一轮应先问、不调工具），并且 question[k+1] 不为空（用户下一轮补话）；并且旧 Monolithic c1 记录在第 k+1 轮和第 k+2 轮都至少有 1 个模型步骤，即回放会走过\"问\"和\"补\"两轮。只在 multi_turn_miss_param 一类核对。旧记录这一轮实际调了几次工具，列在覆盖表里作参考，不作条件。",
+      "candidatesInScope": 200,
+      "satisfiedBy": [
+        {
+          "caseId": "multi_turn_miss_param_20",
+          "askTurns": [
+            {
+              "askTurn": 1,
+              "supplyTurn": 2,
+              "oldToolCallsInAskTurn": 8
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_78",
+          "askTurns": [
+            {
+              "askTurn": 1,
+              "supplyTurn": 2,
+              "oldToolCallsInAskTurn": 1
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_120",
+          "askTurns": [
+            {
+              "askTurn": 1,
+              "supplyTurn": 2,
+              "oldToolCallsInAskTurn": 7
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_158",
+          "askTurns": [
+            {
+              "askTurn": 1,
+              "supplyTurn": 2,
+              "oldToolCallsInAskTurn": 6
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_49",
+          "askTurns": [
+            {
+              "askTurn": 3,
+              "supplyTurn": 4,
+              "oldToolCallsInAskTurn": 0
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_57",
+          "askTurns": [
+            {
+              "askTurn": 1,
+              "supplyTurn": 2,
+              "oldToolCallsInAskTurn": 0
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_116",
+          "askTurns": [
+            {
+              "askTurn": 4,
+              "supplyTurn": 5,
+              "oldToolCallsInAskTurn": 0
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_192",
+          "askTurns": [
+            {
+              "askTurn": 1,
+              "supplyTurn": 2,
+              "oldToolCallsInAskTurn": 24
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_43",
+          "askTurns": [
+            {
+              "askTurn": 2,
+              "supplyTurn": 3,
+              "oldToolCallsInAskTurn": 0
+            }
+          ]
+        },
+        {
+          "caseId": "multi_turn_miss_param_66",
+          "askTurns": [
+            {
+              "askTurn": 4,
+              "supplyTurn": 5,
+              "oldToolCallsInAskTurn": 0
+            }
+          ]
+        }
+      ],
+      "satisfied": true,
+      "supplemented": false,
+      "result": "已满足"
+    },
+    {
+      "item": "terminal:request_limit",
+      "label": "单题终态：请求超限",
+      "scope": "全部 40 道",
+      "definition": "单题终态：旧 Monolithic c1 记录的 executionOutcome。四种：output_limit 输出超限、request_limit 请求超限、input_limit 输入超限、model_output 模型输出出错。旧 800 道里出现过的每一种，40 道里至少 1 道（不分类）；800 道里一次都没有的写\"没有\"。",
+      "candidatesInScope": 1,
+      "satisfiedBy": [
+        {
+          "caseId": "multi_turn_miss_func_3"
+        }
+      ],
+      "satisfied": true,
+      "supplemented": true,
+      "result": "已补",
+      "step": 3
+    }
+  ],
+  "terminals": {
+    "observedOutcomesInOld800": {
+      "completed": 799,
+      "request_limit": 1
+    },
+    "unrecognizedOutcomes": [],
+    "table": [
+      {
+        "outcome": "output_limit",
+        "name": "输出超限",
+        "oldMonolithicC1Count": 0,
+        "oldCases": [],
+        "inSelection": [],
+        "note": "没有：旧 Monolithic c1 的 800 道里一次都没有出现"
+      },
+      {
+        "outcome": "request_limit",
+        "name": "请求超限",
+        "oldMonolithicC1Count": 1,
+        "oldCases": [
+          "multi_turn_miss_func_3"
+        ],
+        "inSelection": [
+          "multi_turn_miss_func_3"
+        ],
+        "note": "旧数据里有"
+      },
+      {
+        "outcome": "input_limit",
+        "name": "输入超限",
+        "oldMonolithicC1Count": 0,
+        "oldCases": [],
+        "inSelection": [],
+        "note": "没有：旧 Monolithic c1 的 800 道里一次都没有出现"
+      },
+      {
+        "outcome": "model_output",
+        "name": "模型输出出错",
+        "oldMonolithicC1Count": 0,
+        "oldCases": [],
+        "inSelection": [],
+        "note": "没有：旧 Monolithic c1 的 800 道里一次都没有出现"
+      }
+    ]
+  },
+  "shuffledPools": {
+    "multi_turn_base": {
+      "GorillaFileSystem": [
+        "multi_turn_base_11",
+        "multi_turn_base_21",
+        "multi_turn_base_12",
+        "multi_turn_base_33",
+        "multi_turn_base_14",
+        "multi_turn_base_37",
+        "multi_turn_base_3",
+        "multi_turn_base_28",
+        "multi_turn_base_6",
+        "multi_turn_base_31",
+        "multi_turn_base_24",
+        "multi_turn_base_36",
+        "multi_turn_base_29",
+        "multi_turn_base_4",
+        "multi_turn_base_16",
+        "multi_turn_base_10",
+        "multi_turn_base_1",
+        "multi_turn_base_27",
+        "multi_turn_base_48",
+        "multi_turn_base_41",
+        "multi_turn_base_34",
+        "multi_turn_base_46",
+        "multi_turn_base_47",
+        "multi_turn_base_44",
+        "multi_turn_base_2",
+        "multi_turn_base_49",
+        "multi_turn_base_22",
+        "multi_turn_base_32",
+        "multi_turn_base_13",
+        "multi_turn_base_0",
+        "multi_turn_base_30",
+        "multi_turn_base_40",
+        "multi_turn_base_18",
+        "multi_turn_base_9",
+        "multi_turn_base_20",
+        "multi_turn_base_38",
+        "multi_turn_base_8",
+        "multi_turn_base_39",
+        "multi_turn_base_43",
+        "multi_turn_base_23",
+        "multi_turn_base_19",
+        "multi_turn_base_7",
+        "multi_turn_base_5",
+        "multi_turn_base_45",
+        "multi_turn_base_26",
+        "multi_turn_base_42",
+        "multi_turn_base_25",
+        "multi_turn_base_17",
+        "multi_turn_base_15",
+        "multi_turn_base_35"
+      ],
+      "VehicleControlAPI": [
+        "multi_turn_base_70",
+        "multi_turn_base_86",
+        "multi_turn_base_62",
+        "multi_turn_base_71",
+        "multi_turn_base_87",
+        "multi_turn_base_53",
+        "multi_turn_base_93",
+        "multi_turn_base_54",
+        "multi_turn_base_67",
+        "multi_turn_base_52",
+        "multi_turn_base_77",
+        "multi_turn_base_78",
+        "multi_turn_base_69",
+        "multi_turn_base_56",
+        "multi_turn_base_98",
+        "multi_turn_base_74",
+        "multi_turn_base_57",
+        "multi_turn_base_68",
+        "multi_turn_base_92",
+        "multi_turn_base_61",
+        "multi_turn_base_81",
+        "multi_turn_base_94",
+        "multi_turn_base_96",
+        "multi_turn_base_59",
+        "multi_turn_base_89",
+        "multi_turn_base_83",
+        "multi_turn_base_65",
+        "multi_turn_base_60",
+        "multi_turn_base_51",
+        "multi_turn_base_99",
+        "multi_turn_base_64",
+        "multi_turn_base_82",
+        "multi_turn_base_97",
+        "multi_turn_base_88",
+        "multi_turn_base_90",
+        "multi_turn_base_55",
+        "multi_turn_base_63",
+        "multi_turn_base_76",
+        "multi_turn_base_85",
+        "multi_turn_base_95",
+        "multi_turn_base_58",
+        "multi_turn_base_73",
+        "multi_turn_base_66",
+        "multi_turn_base_79",
+        "multi_turn_base_84",
+        "multi_turn_base_50",
+        "multi_turn_base_80",
+        "multi_turn_base_72",
+        "multi_turn_base_75",
+        "multi_turn_base_91"
+      ],
+      "TradingBot": [
+        "multi_turn_base_144",
+        "multi_turn_base_107",
+        "multi_turn_base_125",
+        "multi_turn_base_117",
+        "multi_turn_base_146",
+        "multi_turn_base_123",
+        "multi_turn_base_111",
+        "multi_turn_base_120",
+        "multi_turn_base_122",
+        "multi_turn_base_108",
+        "multi_turn_base_118",
+        "multi_turn_base_105",
+        "multi_turn_base_114",
+        "multi_turn_base_112",
+        "multi_turn_base_139",
+        "multi_turn_base_119",
+        "multi_turn_base_141",
+        "multi_turn_base_116",
+        "multi_turn_base_127",
+        "multi_turn_base_102",
+        "multi_turn_base_121",
+        "multi_turn_base_149",
+        "multi_turn_base_109",
+        "multi_turn_base_100",
+        "multi_turn_base_136",
+        "multi_turn_base_133",
+        "multi_turn_base_110",
+        "multi_turn_base_126",
+        "multi_turn_base_129",
+        "multi_turn_base_134",
+        "multi_turn_base_128",
+        "multi_turn_base_103",
+        "multi_turn_base_147",
+        "multi_turn_base_101",
+        "multi_turn_base_145",
+        "multi_turn_base_140",
+        "multi_turn_base_113",
+        "multi_turn_base_143",
+        "multi_turn_base_138",
+        "multi_turn_base_124",
+        "multi_turn_base_115",
+        "multi_turn_base_106",
+        "multi_turn_base_137",
+        "multi_turn_base_142",
+        "multi_turn_base_131",
+        "multi_turn_base_130",
+        "multi_turn_base_132",
+        "multi_turn_base_104",
+        "multi_turn_base_135",
+        "multi_turn_base_148"
+      ],
+      "TravelAPI": [
+        "multi_turn_base_179",
+        "multi_turn_base_197",
+        "multi_turn_base_172",
+        "multi_turn_base_151",
+        "multi_turn_base_198",
+        "multi_turn_base_157",
+        "multi_turn_base_166",
+        "multi_turn_base_180",
+        "multi_turn_base_194",
+        "multi_turn_base_152",
+        "multi_turn_base_190",
+        "multi_turn_base_156",
+        "multi_turn_base_158",
+        "multi_turn_base_171",
+        "multi_turn_base_154",
+        "multi_turn_base_153",
+        "multi_turn_base_188",
+        "multi_turn_base_177",
+        "multi_turn_base_183",
+        "multi_turn_base_165",
+        "multi_turn_base_176",
+        "multi_turn_base_159",
+        "multi_turn_base_199",
+        "multi_turn_base_164",
+        "multi_turn_base_161",
+        "multi_turn_base_173",
+        "multi_turn_base_175",
+        "multi_turn_base_181",
+        "multi_turn_base_150",
+        "multi_turn_base_196",
+        "multi_turn_base_167",
+        "multi_turn_base_187",
+        "multi_turn_base_178",
+        "multi_turn_base_174",
+        "multi_turn_base_193",
+        "multi_turn_base_168",
+        "multi_turn_base_192",
+        "multi_turn_base_185",
+        "multi_turn_base_191",
+        "multi_turn_base_186",
+        "multi_turn_base_184",
+        "multi_turn_base_155",
+        "multi_turn_base_195",
+        "multi_turn_base_169",
+        "multi_turn_base_189",
+        "multi_turn_base_162",
+        "multi_turn_base_170",
+        "multi_turn_base_160",
+        "multi_turn_base_163",
+        "multi_turn_base_182"
+      ]
+    },
+    "multi_turn_miss_func": {
+      "GorillaFileSystem": [
+        "multi_turn_miss_func_43",
+        "multi_turn_miss_func_12",
+        "multi_turn_miss_func_13",
+        "multi_turn_miss_func_32",
+        "multi_turn_miss_func_29",
+        "multi_turn_miss_func_41",
+        "multi_turn_miss_func_11",
+        "multi_turn_miss_func_16",
+        "multi_turn_miss_func_49",
+        "multi_turn_miss_func_34",
+        "multi_turn_miss_func_18",
+        "multi_turn_miss_func_36",
+        "multi_turn_miss_func_47",
+        "multi_turn_miss_func_28",
+        "multi_turn_miss_func_46",
+        "multi_turn_miss_func_19",
+        "multi_turn_miss_func_35",
+        "multi_turn_miss_func_5",
+        "multi_turn_miss_func_22",
+        "multi_turn_miss_func_24",
+        "multi_turn_miss_func_26",
+        "multi_turn_miss_func_40",
+        "multi_turn_miss_func_14",
+        "multi_turn_miss_func_25",
+        "multi_turn_miss_func_3",
+        "multi_turn_miss_func_44",
+        "multi_turn_miss_func_31",
+        "multi_turn_miss_func_20",
+        "multi_turn_miss_func_10",
+        "multi_turn_miss_func_21",
+        "multi_turn_miss_func_2",
+        "multi_turn_miss_func_1",
+        "multi_turn_miss_func_15",
+        "multi_turn_miss_func_48",
+        "multi_turn_miss_func_39",
+        "multi_turn_miss_func_23",
+        "multi_turn_miss_func_42",
+        "multi_turn_miss_func_37",
+        "multi_turn_miss_func_4",
+        "multi_turn_miss_func_27",
+        "multi_turn_miss_func_17",
+        "multi_turn_miss_func_7",
+        "multi_turn_miss_func_33",
+        "multi_turn_miss_func_9",
+        "multi_turn_miss_func_38",
+        "multi_turn_miss_func_6",
+        "multi_turn_miss_func_45",
+        "multi_turn_miss_func_30",
+        "multi_turn_miss_func_0",
+        "multi_turn_miss_func_8"
+      ],
+      "VehicleControlAPI": [
+        "multi_turn_miss_func_67",
+        "multi_turn_miss_func_76",
+        "multi_turn_miss_func_69",
+        "multi_turn_miss_func_51",
+        "multi_turn_miss_func_97",
+        "multi_turn_miss_func_83",
+        "multi_turn_miss_func_55",
+        "multi_turn_miss_func_73",
+        "multi_turn_miss_func_95",
+        "multi_turn_miss_func_96",
+        "multi_turn_miss_func_81",
+        "multi_turn_miss_func_84",
+        "multi_turn_miss_func_56",
+        "multi_turn_miss_func_52",
+        "multi_turn_miss_func_57",
+        "multi_turn_miss_func_85",
+        "multi_turn_miss_func_72",
+        "multi_turn_miss_func_86",
+        "multi_turn_miss_func_62",
+        "multi_turn_miss_func_64",
+        "multi_turn_miss_func_94",
+        "multi_turn_miss_func_74",
+        "multi_turn_miss_func_93",
+        "multi_turn_miss_func_92",
+        "multi_turn_miss_func_53",
+        "multi_turn_miss_func_66",
+        "multi_turn_miss_func_80",
+        "multi_turn_miss_func_77",
+        "multi_turn_miss_func_88",
+        "multi_turn_miss_func_71",
+        "multi_turn_miss_func_58",
+        "multi_turn_miss_func_91",
+        "multi_turn_miss_func_79",
+        "multi_turn_miss_func_78",
+        "multi_turn_miss_func_50",
+        "multi_turn_miss_func_75",
+        "multi_turn_miss_func_99",
+        "multi_turn_miss_func_65",
+        "multi_turn_miss_func_54",
+        "multi_turn_miss_func_63",
+        "multi_turn_miss_func_98",
+        "multi_turn_miss_func_90",
+        "multi_turn_miss_func_61",
+        "multi_turn_miss_func_87",
+        "multi_turn_miss_func_82",
+        "multi_turn_miss_func_68",
+        "multi_turn_miss_func_89",
+        "multi_turn_miss_func_70",
+        "multi_turn_miss_func_59",
+        "multi_turn_miss_func_60"
+      ],
+      "TradingBot": [
+        "multi_turn_miss_func_132",
+        "multi_turn_miss_func_137",
+        "multi_turn_miss_func_126",
+        "multi_turn_miss_func_101",
+        "multi_turn_miss_func_140",
+        "multi_turn_miss_func_134",
+        "multi_turn_miss_func_113",
+        "multi_turn_miss_func_124",
+        "multi_turn_miss_func_136",
+        "multi_turn_miss_func_107",
+        "multi_turn_miss_func_138",
+        "multi_turn_miss_func_117",
+        "multi_turn_miss_func_135",
+        "multi_turn_miss_func_121",
+        "multi_turn_miss_func_119",
+        "multi_turn_miss_func_131",
+        "multi_turn_miss_func_106",
+        "multi_turn_miss_func_110",
+        "multi_turn_miss_func_104",
+        "multi_turn_miss_func_143",
+        "multi_turn_miss_func_122",
+        "multi_turn_miss_func_100",
+        "multi_turn_miss_func_108",
+        "multi_turn_miss_func_149",
+        "multi_turn_miss_func_148",
+        "multi_turn_miss_func_139",
+        "multi_turn_miss_func_111",
+        "multi_turn_miss_func_147",
+        "multi_turn_miss_func_118",
+        "multi_turn_miss_func_130",
+        "multi_turn_miss_func_127",
+        "multi_turn_miss_func_129",
+        "multi_turn_miss_func_123",
+        "multi_turn_miss_func_109",
+        "multi_turn_miss_func_125",
+        "multi_turn_miss_func_115",
+        "multi_turn_miss_func_145",
+        "multi_turn_miss_func_133",
+        "multi_turn_miss_func_103",
+        "multi_turn_miss_func_144",
+        "multi_turn_miss_func_105",
+        "multi_turn_miss_func_116",
+        "multi_turn_miss_func_120",
+        "multi_turn_miss_func_102",
+        "multi_turn_miss_func_112",
+        "multi_turn_miss_func_128",
+        "multi_turn_miss_func_142",
+        "multi_turn_miss_func_141",
+        "multi_turn_miss_func_146",
+        "multi_turn_miss_func_114"
+      ],
+      "TravelAPI": [
+        "multi_turn_miss_func_163",
+        "multi_turn_miss_func_161",
+        "multi_turn_miss_func_186",
+        "multi_turn_miss_func_196",
+        "multi_turn_miss_func_157",
+        "multi_turn_miss_func_194",
+        "multi_turn_miss_func_154",
+        "multi_turn_miss_func_166",
+        "multi_turn_miss_func_188",
+        "multi_turn_miss_func_177",
+        "multi_turn_miss_func_195",
+        "multi_turn_miss_func_171",
+        "multi_turn_miss_func_168",
+        "multi_turn_miss_func_173",
+        "multi_turn_miss_func_162",
+        "multi_turn_miss_func_151",
+        "multi_turn_miss_func_180",
+        "multi_turn_miss_func_150",
+        "multi_turn_miss_func_153",
+        "multi_turn_miss_func_169",
+        "multi_turn_miss_func_187",
+        "multi_turn_miss_func_179",
+        "multi_turn_miss_func_159",
+        "multi_turn_miss_func_172",
+        "multi_turn_miss_func_190",
+        "multi_turn_miss_func_182",
+        "multi_turn_miss_func_167",
+        "multi_turn_miss_func_164",
+        "multi_turn_miss_func_198",
+        "multi_turn_miss_func_170",
+        "multi_turn_miss_func_176",
+        "multi_turn_miss_func_191",
+        "multi_turn_miss_func_193",
+        "multi_turn_miss_func_175",
+        "multi_turn_miss_func_185",
+        "multi_turn_miss_func_192",
+        "multi_turn_miss_func_189",
+        "multi_turn_miss_func_158",
+        "multi_turn_miss_func_181",
+        "multi_turn_miss_func_178",
+        "multi_turn_miss_func_156",
+        "multi_turn_miss_func_152",
+        "multi_turn_miss_func_174",
+        "multi_turn_miss_func_155",
+        "multi_turn_miss_func_183",
+        "multi_turn_miss_func_160",
+        "multi_turn_miss_func_199",
+        "multi_turn_miss_func_184",
+        "multi_turn_miss_func_165",
+        "multi_turn_miss_func_197"
+      ]
+    },
+    "multi_turn_miss_param": {
+      "GorillaFileSystem": [
+        "multi_turn_miss_param_20",
+        "multi_turn_miss_param_49",
+        "multi_turn_miss_param_43",
+        "multi_turn_miss_param_13",
+        "multi_turn_miss_param_28",
+        "multi_turn_miss_param_19",
+        "multi_turn_miss_param_34",
+        "multi_turn_miss_param_22",
+        "multi_turn_miss_param_38",
+        "multi_turn_miss_param_46",
+        "multi_turn_miss_param_44",
+        "multi_turn_miss_param_7",
+        "multi_turn_miss_param_21",
+        "multi_turn_miss_param_18",
+        "multi_turn_miss_param_37",
+        "multi_turn_miss_param_3",
+        "multi_turn_miss_param_35",
+        "multi_turn_miss_param_1",
+        "multi_turn_miss_param_32",
+        "multi_turn_miss_param_6",
+        "multi_turn_miss_param_5",
+        "multi_turn_miss_param_14",
+        "multi_turn_miss_param_26",
+        "multi_turn_miss_param_4",
+        "multi_turn_miss_param_36",
+        "multi_turn_miss_param_10",
+        "multi_turn_miss_param_27",
+        "multi_turn_miss_param_17",
+        "multi_turn_miss_param_48",
+        "multi_turn_miss_param_8",
+        "multi_turn_miss_param_11",
+        "multi_turn_miss_param_47",
+        "multi_turn_miss_param_0",
+        "multi_turn_miss_param_9",
+        "multi_turn_miss_param_16",
+        "multi_turn_miss_param_45",
+        "multi_turn_miss_param_25",
+        "multi_turn_miss_param_23",
+        "multi_turn_miss_param_24",
+        "multi_turn_miss_param_41",
+        "multi_turn_miss_param_30",
+        "multi_turn_miss_param_15",
+        "multi_turn_miss_param_12",
+        "multi_turn_miss_param_29",
+        "multi_turn_miss_param_31",
+        "multi_turn_miss_param_40",
+        "multi_turn_miss_param_39",
+        "multi_turn_miss_param_42",
+        "multi_turn_miss_param_33",
+        "multi_turn_miss_param_2"
+      ],
+      "VehicleControlAPI": [
+        "multi_turn_miss_param_78",
+        "multi_turn_miss_param_57",
+        "multi_turn_miss_param_66",
+        "multi_turn_miss_param_90",
+        "multi_turn_miss_param_88",
+        "multi_turn_miss_param_65",
+        "multi_turn_miss_param_99",
+        "multi_turn_miss_param_67",
+        "multi_turn_miss_param_91",
+        "multi_turn_miss_param_93",
+        "multi_turn_miss_param_75",
+        "multi_turn_miss_param_60",
+        "multi_turn_miss_param_55",
+        "multi_turn_miss_param_50",
+        "multi_turn_miss_param_95",
+        "multi_turn_miss_param_87",
+        "multi_turn_miss_param_94",
+        "multi_turn_miss_param_74",
+        "multi_turn_miss_param_69",
+        "multi_turn_miss_param_68",
+        "multi_turn_miss_param_58",
+        "multi_turn_miss_param_97",
+        "multi_turn_miss_param_76",
+        "multi_turn_miss_param_61",
+        "multi_turn_miss_param_51",
+        "multi_turn_miss_param_70",
+        "multi_turn_miss_param_84",
+        "multi_turn_miss_param_98",
+        "multi_turn_miss_param_52",
+        "multi_turn_miss_param_73",
+        "multi_turn_miss_param_64",
+        "multi_turn_miss_param_54",
+        "multi_turn_miss_param_56",
+        "multi_turn_miss_param_62",
+        "multi_turn_miss_param_53",
+        "multi_turn_miss_param_80",
+        "multi_turn_miss_param_83",
+        "multi_turn_miss_param_96",
+        "multi_turn_miss_param_71",
+        "multi_turn_miss_param_63",
+        "multi_turn_miss_param_89",
+        "multi_turn_miss_param_85",
+        "multi_turn_miss_param_72",
+        "multi_turn_miss_param_77",
+        "multi_turn_miss_param_81",
+        "multi_turn_miss_param_59",
+        "multi_turn_miss_param_86",
+        "multi_turn_miss_param_79",
+        "multi_turn_miss_param_92",
+        "multi_turn_miss_param_82"
+      ],
+      "TradingBot": [
+        "multi_turn_miss_param_120",
+        "multi_turn_miss_param_116",
+        "multi_turn_miss_param_146",
+        "multi_turn_miss_param_115",
+        "multi_turn_miss_param_103",
+        "multi_turn_miss_param_136",
+        "multi_turn_miss_param_112",
+        "multi_turn_miss_param_128",
+        "multi_turn_miss_param_100",
+        "multi_turn_miss_param_107",
+        "multi_turn_miss_param_104",
+        "multi_turn_miss_param_143",
+        "multi_turn_miss_param_139",
+        "multi_turn_miss_param_141",
+        "multi_turn_miss_param_140",
+        "multi_turn_miss_param_125",
+        "multi_turn_miss_param_126",
+        "multi_turn_miss_param_102",
+        "multi_turn_miss_param_113",
+        "multi_turn_miss_param_137",
+        "multi_turn_miss_param_133",
+        "multi_turn_miss_param_144",
+        "multi_turn_miss_param_101",
+        "multi_turn_miss_param_108",
+        "multi_turn_miss_param_111",
+        "multi_turn_miss_param_148",
+        "multi_turn_miss_param_124",
+        "multi_turn_miss_param_135",
+        "multi_turn_miss_param_149",
+        "multi_turn_miss_param_121",
+        "multi_turn_miss_param_122",
+        "multi_turn_miss_param_145",
+        "multi_turn_miss_param_131",
+        "multi_turn_miss_param_129",
+        "multi_turn_miss_param_106",
+        "multi_turn_miss_param_118",
+        "multi_turn_miss_param_147",
+        "multi_turn_miss_param_127",
+        "multi_turn_miss_param_105",
+        "multi_turn_miss_param_142",
+        "multi_turn_miss_param_110",
+        "multi_turn_miss_param_117",
+        "multi_turn_miss_param_134",
+        "multi_turn_miss_param_114",
+        "multi_turn_miss_param_119",
+        "multi_turn_miss_param_123",
+        "multi_turn_miss_param_109",
+        "multi_turn_miss_param_130",
+        "multi_turn_miss_param_132",
+        "multi_turn_miss_param_138"
+      ],
+      "TravelAPI": [
+        "multi_turn_miss_param_158",
+        "multi_turn_miss_param_192",
+        "multi_turn_miss_param_183",
+        "multi_turn_miss_param_151",
+        "multi_turn_miss_param_172",
+        "multi_turn_miss_param_156",
+        "multi_turn_miss_param_194",
+        "multi_turn_miss_param_187",
+        "multi_turn_miss_param_189",
+        "multi_turn_miss_param_169",
+        "multi_turn_miss_param_188",
+        "multi_turn_miss_param_176",
+        "multi_turn_miss_param_177",
+        "multi_turn_miss_param_153",
+        "multi_turn_miss_param_173",
+        "multi_turn_miss_param_163",
+        "multi_turn_miss_param_162",
+        "multi_turn_miss_param_171",
+        "multi_turn_miss_param_198",
+        "multi_turn_miss_param_170",
+        "multi_turn_miss_param_190",
+        "multi_turn_miss_param_157",
+        "multi_turn_miss_param_178",
+        "multi_turn_miss_param_179",
+        "multi_turn_miss_param_174",
+        "multi_turn_miss_param_152",
+        "multi_turn_miss_param_165",
+        "multi_turn_miss_param_185",
+        "multi_turn_miss_param_175",
+        "multi_turn_miss_param_161",
+        "multi_turn_miss_param_181",
+        "multi_turn_miss_param_155",
+        "multi_turn_miss_param_166",
+        "multi_turn_miss_param_184",
+        "multi_turn_miss_param_164",
+        "multi_turn_miss_param_168",
+        "multi_turn_miss_param_186",
+        "multi_turn_miss_param_193",
+        "multi_turn_miss_param_191",
+        "multi_turn_miss_param_182",
+        "multi_turn_miss_param_150",
+        "multi_turn_miss_param_195",
+        "multi_turn_miss_param_160",
+        "multi_turn_miss_param_199",
+        "multi_turn_miss_param_180",
+        "multi_turn_miss_param_197",
+        "multi_turn_miss_param_159",
+        "multi_turn_miss_param_167",
+        "multi_turn_miss_param_154",
+        "multi_turn_miss_param_196"
+      ]
+    },
+    "multi_turn_long_context": {
+      "GorillaFileSystem": [
+        "multi_turn_long_context_40",
+        "multi_turn_long_context_15",
+        "multi_turn_long_context_10",
+        "multi_turn_long_context_24",
+        "multi_turn_long_context_8",
+        "multi_turn_long_context_42",
+        "multi_turn_long_context_44",
+        "multi_turn_long_context_26",
+        "multi_turn_long_context_19",
+        "multi_turn_long_context_6",
+        "multi_turn_long_context_25",
+        "multi_turn_long_context_43",
+        "multi_turn_long_context_33",
+        "multi_turn_long_context_14",
+        "multi_turn_long_context_5",
+        "multi_turn_long_context_45",
+        "multi_turn_long_context_31",
+        "multi_turn_long_context_30",
+        "multi_turn_long_context_27",
+        "multi_turn_long_context_20",
+        "multi_turn_long_context_37",
+        "multi_turn_long_context_46",
+        "multi_turn_long_context_41",
+        "multi_turn_long_context_1",
+        "multi_turn_long_context_39",
+        "multi_turn_long_context_34",
+        "multi_turn_long_context_4",
+        "multi_turn_long_context_48",
+        "multi_turn_long_context_18",
+        "multi_turn_long_context_11",
+        "multi_turn_long_context_16",
+        "multi_turn_long_context_32",
+        "multi_turn_long_context_28",
+        "multi_turn_long_context_49",
+        "multi_turn_long_context_38",
+        "multi_turn_long_context_7",
+        "multi_turn_long_context_13",
+        "multi_turn_long_context_47",
+        "multi_turn_long_context_17",
+        "multi_turn_long_context_22",
+        "multi_turn_long_context_35",
+        "multi_turn_long_context_23",
+        "multi_turn_long_context_21",
+        "multi_turn_long_context_9",
+        "multi_turn_long_context_0",
+        "multi_turn_long_context_2",
+        "multi_turn_long_context_36",
+        "multi_turn_long_context_29",
+        "multi_turn_long_context_12",
+        "multi_turn_long_context_3"
+      ],
+      "VehicleControlAPI": [
+        "multi_turn_long_context_87",
+        "multi_turn_long_context_91",
+        "multi_turn_long_context_96",
+        "multi_turn_long_context_83",
+        "multi_turn_long_context_93",
+        "multi_turn_long_context_77",
+        "multi_turn_long_context_66",
+        "multi_turn_long_context_73",
+        "multi_turn_long_context_98",
+        "multi_turn_long_context_65",
+        "multi_turn_long_context_52",
+        "multi_turn_long_context_58",
+        "multi_turn_long_context_71",
+        "multi_turn_long_context_57",
+        "multi_turn_long_context_56",
+        "multi_turn_long_context_89",
+        "multi_turn_long_context_55",
+        "multi_turn_long_context_79",
+        "multi_turn_long_context_64",
+        "multi_turn_long_context_61",
+        "multi_turn_long_context_60",
+        "multi_turn_long_context_53",
+        "multi_turn_long_context_68",
+        "multi_turn_long_context_86",
+        "multi_turn_long_context_99",
+        "multi_turn_long_context_90",
+        "multi_turn_long_context_88",
+        "multi_turn_long_context_75",
+        "multi_turn_long_context_78",
+        "multi_turn_long_context_85",
+        "multi_turn_long_context_84",
+        "multi_turn_long_context_70",
+        "multi_turn_long_context_76",
+        "multi_turn_long_context_59",
+        "multi_turn_long_context_94",
+        "multi_turn_long_context_92",
+        "multi_turn_long_context_82",
+        "multi_turn_long_context_63",
+        "multi_turn_long_context_62",
+        "multi_turn_long_context_95",
+        "multi_turn_long_context_72",
+        "multi_turn_long_context_69",
+        "multi_turn_long_context_51",
+        "multi_turn_long_context_80",
+        "multi_turn_long_context_81",
+        "multi_turn_long_context_97",
+        "multi_turn_long_context_67",
+        "multi_turn_long_context_50",
+        "multi_turn_long_context_54",
+        "multi_turn_long_context_74"
+      ],
+      "TradingBot": [
+        "multi_turn_long_context_104",
+        "multi_turn_long_context_121",
+        "multi_turn_long_context_137",
+        "multi_turn_long_context_132",
+        "multi_turn_long_context_111",
+        "multi_turn_long_context_133",
+        "multi_turn_long_context_112",
+        "multi_turn_long_context_143",
+        "multi_turn_long_context_125",
+        "multi_turn_long_context_129",
+        "multi_turn_long_context_128",
+        "multi_turn_long_context_135",
+        "multi_turn_long_context_138",
+        "multi_turn_long_context_102",
+        "multi_turn_long_context_144",
+        "multi_turn_long_context_100",
+        "multi_turn_long_context_147",
+        "multi_turn_long_context_119",
+        "multi_turn_long_context_148",
+        "multi_turn_long_context_101",
+        "multi_turn_long_context_136",
+        "multi_turn_long_context_149",
+        "multi_turn_long_context_105",
+        "multi_turn_long_context_115",
+        "multi_turn_long_context_120",
+        "multi_turn_long_context_117",
+        "multi_turn_long_context_107",
+        "multi_turn_long_context_108",
+        "multi_turn_long_context_106",
+        "multi_turn_long_context_113",
+        "multi_turn_long_context_141",
+        "multi_turn_long_context_145",
+        "multi_turn_long_context_140",
+        "multi_turn_long_context_131",
+        "multi_turn_long_context_122",
+        "multi_turn_long_context_116",
+        "multi_turn_long_context_146",
+        "multi_turn_long_context_110",
+        "multi_turn_long_context_142",
+        "multi_turn_long_context_118",
+        "multi_turn_long_context_103",
+        "multi_turn_long_context_139",
+        "multi_turn_long_context_123",
+        "multi_turn_long_context_127",
+        "multi_turn_long_context_109",
+        "multi_turn_long_context_130",
+        "multi_turn_long_context_114",
+        "multi_turn_long_context_126",
+        "multi_turn_long_context_134",
+        "multi_turn_long_context_124"
+      ],
+      "TravelAPI": [
+        "multi_turn_long_context_190",
+        "multi_turn_long_context_196",
+        "multi_turn_long_context_154",
+        "multi_turn_long_context_175",
+        "multi_turn_long_context_177",
+        "multi_turn_long_context_153",
+        "multi_turn_long_context_197",
+        "multi_turn_long_context_161",
+        "multi_turn_long_context_165",
+        "multi_turn_long_context_167",
+        "multi_turn_long_context_193",
+        "multi_turn_long_context_162",
+        "multi_turn_long_context_150",
+        "multi_turn_long_context_192",
+        "multi_turn_long_context_168",
+        "multi_turn_long_context_159",
+        "multi_turn_long_context_178",
+        "multi_turn_long_context_173",
+        "multi_turn_long_context_176",
+        "multi_turn_long_context_180",
+        "multi_turn_long_context_198",
+        "multi_turn_long_context_179",
+        "multi_turn_long_context_152",
+        "multi_turn_long_context_169",
+        "multi_turn_long_context_157",
+        "multi_turn_long_context_164",
+        "multi_turn_long_context_199",
+        "multi_turn_long_context_151",
+        "multi_turn_long_context_156",
+        "multi_turn_long_context_188",
+        "multi_turn_long_context_158",
+        "multi_turn_long_context_195",
+        "multi_turn_long_context_191",
+        "multi_turn_long_context_174",
+        "multi_turn_long_context_171",
+        "multi_turn_long_context_189",
+        "multi_turn_long_context_155",
+        "multi_turn_long_context_160",
+        "multi_turn_long_context_183",
+        "multi_turn_long_context_186",
+        "multi_turn_long_context_181",
+        "multi_turn_long_context_163",
+        "multi_turn_long_context_187",
+        "multi_turn_long_context_172",
+        "multi_turn_long_context_170",
+        "multi_turn_long_context_184",
+        "multi_turn_long_context_194",
+        "multi_turn_long_context_185",
+        "multi_turn_long_context_182",
+        "multi_turn_long_context_166"
+      ]
+    }
+  },
+  "oldRecord": {
+    "location": "F:/Academic/Ditto/experiments/bfcl_direct/runs/multiturn-full800-001",
+    "tasksPattern": "full/<category>/monolithic/monolithic-c1/tasks/<caseId>.json",
+    "whyThisOne": [
+      "回放后端 src/ts/egress/backends/replay.ts 按 index.records 的文件名读 <source>/model-records/<file>；config/egress.offline.json 和 egress.throughput.json 及 stages/main、pilot、profile、slice、t8c-* 的 replay.source 都是 ../../bfcl_direct/runs/multiturn-full800-001（t8c-integration 写的是同一目录的绝对路径），index 都是 runs/offline/replay-index/index.json。",
+      "scripts/build-replay-index.ts 默认 --source 也是这个目录，按 full/<category>/monolithic/monolithic-c1/tasks/<caseId>.json 建索引。",
+      "本脚本核对：800 道旧记录都是 group=monolithic、concurrency=1、transcriptFormat=full；每道题的 modelSteps (轮,步) 与 index.json 的位置一一对应（不一致列在 indexMismatch）；选中 40 道的全部回放文件哈希与 index.json 一致（见 replayCheck）。"
+    ],
+    "taskFiles": 800,
+    "aggregateSha256": {
+      "value": "1cc41c762af001471e04d8c5b88c9a13d6ca66f30d446be2fb90187550d526fe",
+      "how": "把 800 份单题记录按相对路径排序，每行 \"<相对路径>\\t<sha256>\\n\" 拼起来再算 sha256"
+    },
+    "replayIndex": {
+      "index": {
+        "path": "F:\\Academic\\Ditto\\experiments\\sec1\\01_bfcl_multiturn\\runs\\offline\\replay-index\\index.json",
+        "sha256": "fe634efeab755b86f6dccc18a3916ad822c735378e619fb734208de5afc517e2"
+      },
+      "summary": {
+        "path": "F:\\Academic\\Ditto\\experiments\\sec1\\01_bfcl_multiturn\\runs\\offline\\replay-index\\summary.json",
+        "sha256": "588dba9bbfd8502524e9814bffb9fac032a16556c4dd23a2bc5685bb173e0392"
+      }
+    },
+    "egressOfflineConfig": {
+      "path": "F:\\Academic\\Ditto\\experiments\\sec1\\01_bfcl_multiturn\\config\\egress.offline.json",
+      "sha256": "b271a6f081ee2f47f6b38f1dcf8bed3aa832f4073219e2e20340d6c46116c0bd"
+    },
+    "indexMismatch": [],
+    "selectedTaskFiles": [
+      {
+        "caseId": "multi_turn_base_11",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_11.json",
+        "sha256": "2f45e528a1246a14812d6c40eb1dbdaa4f74b580a07fd69599866a65294f9703"
+      },
+      {
+        "caseId": "multi_turn_base_70",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_70.json",
+        "sha256": "501b6d2cf562307b9f2dbf24b3a924310b967eed8263ca0031e88adc13f495ff"
+      },
+      {
+        "caseId": "multi_turn_base_144",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_144.json",
+        "sha256": "ecf8d381b45bbc93c3c454c345d24621022fc5166774e753d6efc63cfe9c05d6"
+      },
+      {
+        "caseId": "multi_turn_base_179",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_179.json",
+        "sha256": "5cd62abd7d1cd2ac31169adac4a51e46a65d3a8adf51979a08ac626b2bbe72d5"
+      },
+      {
+        "caseId": "multi_turn_base_21",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_21.json",
+        "sha256": "fc3f1fcd723c630a525e96f0ce7480d2f783beeea245db55424d9b5258aa4cb0"
+      },
+      {
+        "caseId": "multi_turn_base_86",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_86.json",
+        "sha256": "1994cdcf489f208397d5e90c41ae90ec4a5a4785c4cf9f9d6a4d04c1e32713f3"
+      },
+      {
+        "caseId": "multi_turn_base_107",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_107.json",
+        "sha256": "2a80a8194186f37104b1c288a7d185d8e809d825a52d58fe621b7ccdc4c3b13f"
+      },
+      {
+        "caseId": "multi_turn_base_180",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_180.json",
+        "sha256": "3456e377f716b171285fd92d01dbab4c63223a36660168ffb779b64a38f9adae"
+      },
+      {
+        "caseId": "multi_turn_base_12",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_12.json",
+        "sha256": "e2e94fa1b5265e00e1f08132266b3b31e331cd9c3847fd9cf185fe40b0c1aa11"
+      },
+      {
+        "caseId": "multi_turn_base_62",
+        "file": "full/multi_turn_base/monolithic/monolithic-c1/tasks/multi_turn_base_62.json",
+        "sha256": "361f53e1f8cea5b579bbd61dda3cf03d733ad0c44d44267df89ad899cbafd16d"
+      },
+      {
+        "caseId": "multi_turn_miss_func_43",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_43.json",
+        "sha256": "d2bf52b2b40aed597feec949528e24d47e11afc6a6ac79d602c31c1dde341693"
+      },
+      {
+        "caseId": "multi_turn_miss_func_67",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_67.json",
+        "sha256": "3b499eca785298f337acb4d816457438834cc0313a929714cbb4d289449bc6d6"
+      },
+      {
+        "caseId": "multi_turn_miss_func_132",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_132.json",
+        "sha256": "27066ae4966b6da8422ff2c781d81efecc8e093cce88c9a4cf2411d0f8605511"
+      },
+      {
+        "caseId": "multi_turn_miss_func_163",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_163.json",
+        "sha256": "3128b028e38893f4876f9029036d6eb1aa0b1018560a6560b0222d46a4a6686b"
+      },
+      {
+        "caseId": "multi_turn_miss_func_12",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_12.json",
+        "sha256": "3b023a34c48bbd9ad7ef536ddaaabc95a66936aa01b291647407227e91f73e24"
+      },
+      {
+        "caseId": "multi_turn_miss_func_76",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_76.json",
+        "sha256": "28f249e59382a1ecffaf78e3a45aab6f7b2bae0dd23115f039dd17ba7a3c2658"
+      },
+      {
+        "caseId": "multi_turn_miss_func_137",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_137.json",
+        "sha256": "3daa3748b0a9e6881d878972b1bcc9c0e70202506297aee142771f24eed892e0"
+      },
+      {
+        "caseId": "multi_turn_miss_func_186",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_186.json",
+        "sha256": "878bfe77ceede729d868dca166320e5acbd01f5877528ac98a811c91dcc2edc7"
+      },
+      {
+        "caseId": "multi_turn_miss_func_3",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_3.json",
+        "sha256": "6f16676c5a0971b2e94e1d8637c9c9ebc9d8d173ad7a9b5fbf1da72a743ff9dc"
+      },
+      {
+        "caseId": "multi_turn_miss_func_69",
+        "file": "full/multi_turn_miss_func/monolithic/monolithic-c1/tasks/multi_turn_miss_func_69.json",
+        "sha256": "57f69373fb40c33c0ed99f3b2cb8884acb3a68f6bf951419d7ce4374dc42cf9e"
+      },
+      {
+        "caseId": "multi_turn_miss_param_20",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_20.json",
+        "sha256": "96548c883bb86a0149e52a4efb7778983f5d5777955b09f995684773721b2524"
+      },
+      {
+        "caseId": "multi_turn_miss_param_78",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_78.json",
+        "sha256": "7a7a1082203612eb5878dc76740afac2ba46662cd746e5abc6117d5c412e649e"
+      },
+      {
+        "caseId": "multi_turn_miss_param_120",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_120.json",
+        "sha256": "067763512d5701ae9e82f10ef0115b56618487f2e8552e12703b98f1a73baea6"
+      },
+      {
+        "caseId": "multi_turn_miss_param_158",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_158.json",
+        "sha256": "046b47a1e30d4436d4bf4219bfef5bb8392ce074da1e8c35424e6074f136498a"
+      },
+      {
+        "caseId": "multi_turn_miss_param_49",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_49.json",
+        "sha256": "0184b8e287dc8d233e7fd712b69c7aa35f8ee4f70d1fde9099a33bd970f1ebd5"
+      },
+      {
+        "caseId": "multi_turn_miss_param_57",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_57.json",
+        "sha256": "ec46836530447f739bdafc20fe1b442a4b28c05b9e67b5a2c4bb5bd76d76a2a1"
+      },
+      {
+        "caseId": "multi_turn_miss_param_116",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_116.json",
+        "sha256": "802db850b1272e382e7090a4d75812d963050deaa76fdd2d4f52e4bb3bdff78b"
+      },
+      {
+        "caseId": "multi_turn_miss_param_192",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_192.json",
+        "sha256": "65ada9e60aa645df57e590131b0df922f5f13587b8eac7a37dd571466873be69"
+      },
+      {
+        "caseId": "multi_turn_miss_param_43",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_43.json",
+        "sha256": "a8d8f9013ca08fa506f3bd0a85f4d2e9dbe04ef08cf56d21ce7aa16c8f815d74"
+      },
+      {
+        "caseId": "multi_turn_miss_param_66",
+        "file": "full/multi_turn_miss_param/monolithic/monolithic-c1/tasks/multi_turn_miss_param_66.json",
+        "sha256": "421ba41255c2ef05ecd185b8252726142993342c2a47766d7ff7f317502d78e9"
+      },
+      {
+        "caseId": "multi_turn_long_context_40",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_40.json",
+        "sha256": "5ddf34c1821d03268ac8739df519e3fc3602ccbd5466174d087521ef067bc1b5"
+      },
+      {
+        "caseId": "multi_turn_long_context_87",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_87.json",
+        "sha256": "6e03a54562759cf104779c067506d7dfa80afdfb637d802cd91d0f4c3460ca73"
+      },
+      {
+        "caseId": "multi_turn_long_context_104",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_104.json",
+        "sha256": "1c741a767e4b104078617e6bdc3be7aa87538bab9ec4e72f649c5cdddde6eb01"
+      },
+      {
+        "caseId": "multi_turn_long_context_190",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_190.json",
+        "sha256": "8b5ae8185535a6441fb1e976c1baaa7a4bd3fcbce841a742b7e0c7c567135529"
+      },
+      {
+        "caseId": "multi_turn_long_context_15",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_15.json",
+        "sha256": "7f5ffd599a92c7afb9ea948a9481c16bb086f96b3de0fe191528ed1c3a0069df"
+      },
+      {
+        "caseId": "multi_turn_long_context_91",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_91.json",
+        "sha256": "46565eb8d4003a3ec62ae67a6677f34c9a31286a12350c27d3943de2f0fd4830"
+      },
+      {
+        "caseId": "multi_turn_long_context_121",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_121.json",
+        "sha256": "06f82d1bd76936a3ef1f28640219aa6b94a3b87528bec8050e2159388d685f49"
+      },
+      {
+        "caseId": "multi_turn_long_context_196",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_196.json",
+        "sha256": "384afbe7dd79ff9a868bfbe8f7cf36df30f47df49c43923e5cffc0b951997fe6"
+      },
+      {
+        "caseId": "multi_turn_long_context_10",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_10.json",
+        "sha256": "f7b87a74964b0dd7f85dbd35c38945c5ee8144e7ce399ed5168fa158d7a2a0d3"
+      },
+      {
+        "caseId": "multi_turn_long_context_96",
+        "file": "full/multi_turn_long_context/monolithic/monolithic-c1/tasks/multi_turn_long_context_96.json",
+        "sha256": "218c4dddfca96b924dc9acf963982b50456c78c9c8ce39dff7454faf2dc03cf3"
+      }
+    ],
+    "replayCheck": [
+      {
+        "caseId": "multi_turn_base_11",
+        "positions": 6,
+        "filesMatchingIndexSha256": 6,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_70",
+        "positions": 12,
+        "filesMatchingIndexSha256": 12,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_144",
+        "positions": 4,
+        "filesMatchingIndexSha256": 4,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_179",
+        "positions": 14,
+        "filesMatchingIndexSha256": 14,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_21",
+        "positions": 9,
+        "filesMatchingIndexSha256": 9,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_86",
+        "positions": 12,
+        "filesMatchingIndexSha256": 12,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_107",
+        "positions": 13,
+        "filesMatchingIndexSha256": 13,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_180",
+        "positions": 22,
+        "filesMatchingIndexSha256": 22,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_12",
+        "positions": 10,
+        "filesMatchingIndexSha256": 10,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_base_62",
+        "positions": 17,
+        "filesMatchingIndexSha256": 17,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_43",
+        "positions": 18,
+        "filesMatchingIndexSha256": 18,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_67",
+        "positions": 19,
+        "filesMatchingIndexSha256": 19,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_132",
+        "positions": 10,
+        "filesMatchingIndexSha256": 10,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_163",
+        "positions": 6,
+        "filesMatchingIndexSha256": 6,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_12",
+        "positions": 16,
+        "filesMatchingIndexSha256": 16,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_76",
+        "positions": 11,
+        "filesMatchingIndexSha256": 11,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_137",
+        "positions": 18,
+        "filesMatchingIndexSha256": 18,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_186",
+        "positions": 30,
+        "filesMatchingIndexSha256": 30,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_3",
+        "positions": 100,
+        "filesMatchingIndexSha256": 100,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_func_69",
+        "positions": 13,
+        "filesMatchingIndexSha256": 13,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_20",
+        "positions": 12,
+        "filesMatchingIndexSha256": 12,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_78",
+        "positions": 8,
+        "filesMatchingIndexSha256": 8,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_120",
+        "positions": 17,
+        "filesMatchingIndexSha256": 17,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_158",
+        "positions": 19,
+        "filesMatchingIndexSha256": 19,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_49",
+        "positions": 14,
+        "filesMatchingIndexSha256": 14,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_57",
+        "positions": 6,
+        "filesMatchingIndexSha256": 6,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_116",
+        "positions": 18,
+        "filesMatchingIndexSha256": 18,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_192",
+        "positions": 11,
+        "filesMatchingIndexSha256": 11,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_43",
+        "positions": 11,
+        "filesMatchingIndexSha256": 11,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_miss_param_66",
+        "positions": 14,
+        "filesMatchingIndexSha256": 14,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_40",
+        "positions": 16,
+        "filesMatchingIndexSha256": 16,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_87",
+        "positions": 13,
+        "filesMatchingIndexSha256": 13,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_104",
+        "positions": 6,
+        "filesMatchingIndexSha256": 6,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_190",
+        "positions": 11,
+        "filesMatchingIndexSha256": 11,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_15",
+        "positions": 11,
+        "filesMatchingIndexSha256": 11,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_91",
+        "positions": 7,
+        "filesMatchingIndexSha256": 7,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_121",
+        "positions": 15,
+        "filesMatchingIndexSha256": 15,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_196",
+        "positions": 19,
+        "filesMatchingIndexSha256": 19,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_10",
+        "positions": 29,
+        "filesMatchingIndexSha256": 29,
+        "mismatched": []
+      },
+      {
+        "caseId": "multi_turn_long_context_96",
+        "positions": 10,
+        "filesMatchingIndexSha256": 10,
+        "mismatched": []
+      }
+    ]
+  },
+  "stats": {
+    "multi_turn_base": {
+      "tasks": 200,
+      "toolCalls": {
+        "min": 2,
+        "max": 35,
+        "top10PercentThreshold": 18,
+        "atOrAboveThreshold": 20,
+        "exactlyOne": 0,
+        "zero": 0
+      },
+      "outcomes": {
+        "completed": 200
+      },
+      "completedVsActionRequestsMismatch": []
+    },
+    "multi_turn_miss_func": {
+      "tasks": 200,
+      "toolCalls": {
+        "min": 3,
+        "max": 300,
+        "top10PercentThreshold": 28,
+        "atOrAboveThreshold": 20,
+        "exactlyOne": 0,
+        "zero": 0
+      },
+      "outcomes": {
+        "completed": 199,
+        "request_limit": 1
+      },
+      "completedVsActionRequestsMismatch": []
+    },
+    "multi_turn_miss_param": {
+      "tasks": 200,
+      "toolCalls": {
+        "min": 3,
+        "max": 36,
+        "top10PercentThreshold": 22,
+        "atOrAboveThreshold": 21,
+        "exactlyOne": 0,
+        "zero": 0
+      },
+      "outcomes": {
+        "completed": 200
+      },
+      "completedVsActionRequestsMismatch": []
+    },
+    "multi_turn_long_context": {
+      "tasks": 200,
+      "toolCalls": {
+        "min": 2,
+        "max": 41,
+        "top10PercentThreshold": 18,
+        "atOrAboveThreshold": 22,
+        "exactlyOne": 0,
+        "zero": 0
+      },
+      "outcomes": {
+        "completed": 200
+      },
+      "completedVsActionRequestsMismatch": []
+    }
+  },
+  "inputs": {
+    "src/ts/scheduler/plan.ts": "7e1ddd4ab20c6b0b5e49ddb5d1c67beefd7f41f6d6ab2dbda6f5963df5d7a0f0",
+    "src/ts/scheduler/io.ts": "8bccdfc955b1a5679d2d4590014f4f35e274f3f0c036f08557b6b8756e89b395",
+    "data/tasks.jsonl": "1a21a995d06fd6f20ba55de7bced30ef953ec35e998f502ec2ecf4d66ef1c43a",
+    "data/multi_turn_miss_func.tasks.jsonl": "87d28ce10e37d864b72de85d5732eef2a867b241d6c1c99b4ae682c9e3ea921c",
+    "data/multi_turn_miss_param.tasks.jsonl": "f0c66dda3795f5f53e3e1c0cc8ba0246b6761c8f58bdba8317203bf451ab8838",
+    "data/multi_turn_long_context.tasks.jsonl": "78c3268c5cc8e97c0f4ec6c811b3b9a2bba14323b1830b7a874b06d822749324",
+    "data/multi_turn_miss_param.answers.jsonl": "59c442901779e2c31c33abcd566d032e03736e5ad8069de2fe05489873046ecf"
+  },
+  "script": {
+    "path": "F:/Academic/Ditto/experiments/sec1/01_bfcl_multiturn/runs/offline/t9-20261107/c3sel/select-t9.ts",
+    "sha256": "e4300d5115acb76ed6a617ec49846a07f0d2aac849ed86d6f59153efb7e75ef6",
+    "command": "env -C F:/Academic/Ditto/experiments/sec1/01_bfcl_multiturn node --import ./scripts/egress-offline-guard.mjs --experimental-transform-types F:/Academic/Ditto/experiments/sec1/01_bfcl_multiturn/runs/offline/t9-20261107/c3sel/select-t9.ts --out <目录>"
+  }
+}

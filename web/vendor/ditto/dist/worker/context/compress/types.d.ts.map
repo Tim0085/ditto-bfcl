@@ -1,0 +1,1 @@
+{"version":3,"file":"types.d.ts","sourceRoot":"","sources":["../../../../src/worker/context/compress/types.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,8BAA8B,CAAC;AAE5D,MAAM,WAAW,oBAAoB;IACnC,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;IAC1B,QAAQ,CAAC,SAAS,CAAC,EAAE,MAAM,CAAC;IAC5B,QAAQ,CAAC,QAAQ,CAAC,EAAE,MAAM,CAAC;CAC5B;AAED,MAAM,MAAM,qBAAqB,GAAG,OAAO,CAAC"}

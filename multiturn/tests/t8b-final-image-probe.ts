@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import { mkdir,writeFile } from 'node:fs/promises';
+import { resolve,join } from 'node:path';
+import { docker,labels,inspect,removeExited,save } from '../src/ts/docker/common.ts';
+const imageId=JSON.parse((await docker(['image','inspect','ditto-sec1-bfcl:dev'])).stdout)[0].Id;
+const output=resolve('runs/offline/t8b-20261105','f-drive-probe-'+process.pid);await mkdir(output);
+const runId='t8b-image-probe-'+process.pid,unit='runtime';
+const source=`import fs from 'node:fs';import {execFileSync} from 'node:child_process';import assert from 'node:assert/strict';
+const excluded=[];function walk(path){for(const e of fs.readdirSync(path,{withFileTypes:true})){if(e.name.toLowerCase().startsWith('.env')||['private','tests','docs','runs'].includes(e.name.toLowerCase())){excluded.push(path+'/'+e.name);continue;}if(e.isDirectory())walk(path+'/'+e.name);}}walk('/app');assert.equal(excluded.length,0);assert.equal(process.getuid(),1000);assert.equal(process.version,'v24.14.0');assert.equal(process.env.PYTHONDONTWRITEBYTECODE,'1');
+fs.writeFileSync('/output/pending','F-drive hard-link check',{flag:'wx'});fs.linkSync('/output/pending','/output/published');assert.throws(()=>fs.linkSync('/output/pending','/output/published'),{code:'EEXIST'});fs.unlinkSync('/output/pending');assert.equal(fs.readFileSync('/output/published','utf8'),'F-drive hard-link check');
+console.log(JSON.stringify({imageNode:process.version,python:execFileSync('python3',['-B','--version'],{encoding:'utf8'}).trim(),uid:process.getuid(),clockTicks:execFileSync('getconf',['CLK_TCK'],{encoding:'utf8'}).trim(),pageBytes:execFileSync('getconf',['PAGESIZE'],{encoding:'utf8'}).trim(),forbiddenImagePaths:excluded,fDriveHardLink:true,exclusivePublish:true}));`;
+await writeFile(join(output,'probe.mjs'),source);
+const args=['create','--pull=never',...labels(runId,unit),'--network','none','--cpus=2','--memory=4g','--memory-swap=4g','--cap-drop=ALL','--security-opt','no-new-privileges','--mount',`type=bind,source=${output},target=/output`,imageId,'node','/output/probe.mjs'];
+const id=(await docker(args)).stdout.trim();await docker(['start',id]);await docker(['wait',id]);const state=await inspect(id),logs=await docker(['logs',id]);await save(join(output,'process.json'),{command:['docker',...args],state,logs});await removeExited(id,runId,unit);console.log(logs.stdout,logs.stderr);assert.equal(state.State.ExitCode,0);

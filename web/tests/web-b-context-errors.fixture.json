@@ -1,0 +1,74 @@
+[
+  {
+    "line": 468,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 1793868 tokens (1728332 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: 52f13331-4af1-4b29-9323-dcf934febb4b)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  },
+  {
+    "line": 790,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 2618220 tokens (2552684 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: add2a180-587c-4b7d-bbb8-bdb47ed021e7)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  },
+  {
+    "line": 1372,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 1077572 tokens (1012036 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: 809383c5-501a-4d2d-9f2f-bd088d1c44a9)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  },
+  {
+    "line": 2367,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 2623678 tokens (2558142 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: 05b4b05d-e731-4520-ae57-d86b2ca0ec54)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  },
+  {
+    "line": 4207,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 2629084 tokens (2563548 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: e942e97b-7ef7-4cfb-99a6-b31f2347b557)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  },
+  {
+    "line": 7067,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 1384141 tokens (1318605 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: 24f85418-4856-4d38-b951-65453960b114)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  },
+  {
+    "line": 7420,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 1398804 tokens (1333268 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: 684576d9-5a4c-4824-bdd6-1fc8f54442db)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  },
+  {
+    "line": 13668,
+    "httpStatus": 400,
+    "error": {
+      "message": "This model's maximum context length is 1048576 tokens. However, you requested 1079046 tokens (1013510 in the messages, 65536 in the completion). Please reduce the length of the messages or completion. (request_id: 68787944-1284-4966-9274-e707a77ee747)",
+      "type": "invalid_request_error",
+      "code": "invalid_request_error"
+    }
+  }
+]

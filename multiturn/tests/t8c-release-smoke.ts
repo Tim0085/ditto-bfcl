@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {join,resolve} from 'node:path';
+import {stage} from './t8a-helpers.ts';
+import {freeze} from '../src/ts/scheduler/plan.ts';
+import {freezeLauncher,launcherFor} from '../src/ts/scheduler/launcher.ts';
+import {runSchedule} from '../src/ts/scheduler/scheduler.ts';
+import {exportRun} from '../src/ts/scheduler/export.ts';
+const root=resolve(process.env.T8C_ACCEPTANCE_ROOT?join(process.env.T8C_ACCEPTANCE_ROOT,'release-smoke-'+process.pid):'runs/offline/t8c-20261106/release-smoke-'+process.pid),s=stage('t8c-release-'+process.pid,['multi_turn_base_0']);
+s.launcher={kind:'docker',tag:'dev',runtime:{clockTicks:100,pageBytes:4096}};s.sampling.strict=true;s.stall={idleMs:120000,stopGraceMs:5000,pollMs:200};
+await freezeLauncher(s);const plan=freeze(s,root),launcher=launcherFor(root,plan),report=await runSchedule(root,launcher);
+assert.equal(report.status,'complete');assert.deepEqual(await launcher.list(s.runId),[]);
+const result=exportRun(root,join(root,'export'));assert(result.taskRows.every(r=>r.state==='completed'&&r.scoreStatus==='scored'&&r.selectedItemCounts?.length>0));
+console.log(JSON.stringify({releaseSmoke:'PASS',root,imageId:s.launcher.imageId,tasks:result.taskRows.length}));

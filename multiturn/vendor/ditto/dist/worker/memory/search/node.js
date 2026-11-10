@@ -1,0 +1,12 @@
+import { createNodeScaffold } from "../../node-scaffold.js";
+import { MemoryError } from "../validation.js";
+import { validateSearch } from "./schema.js";
+export async function searchNode(input, resources, options = {}) {
+    validateSearch(input);
+    const provider = resources.search ?? resources.store;
+    if (typeof provider.search !== "function")
+        throw new MemoryError("SEARCH_UNAVAILABLE", "Memory search is not configured");
+    return provider.search(input, options);
+}
+export const memorySearchNode = createNodeScaffold("MEMORY.SEARCH");
+//# sourceMappingURL=node.js.map

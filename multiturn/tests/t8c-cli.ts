@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {resolve,join} from 'node:path';
+import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
+import {stage} from './t8a-helpers.ts';
+import {read,json} from '../src/ts/scheduler/io.ts';
+import {checkPlan} from '../src/ts/scheduler/plan.ts';
+const root=resolve(process.env.T8C_ACCEPTANCE_ROOT?join(process.env.T8C_ACCEPTANCE_ROOT,'cli-stage-'+process.pid):'runs/offline/t8c-20261106/cli-stage-'+process.pid);mkdirSync(root,{recursive:true});
+const s=stage('t8c-cli-'+process.pid,['multi_turn_base_0']);s.launcher={kind:'docker',tag:'dev',runtime:{clockTicks:100,pageBytes:4096}};s.sampling.strict=true;
+const stageFile=join(root,'stage.json'),runRoot=join(root,'run');json(stageFile,s,true);
+const args=['-NoProfile','-File','scripts/t8a-stage.ps1','-Stage',stageFile,'-Root',runRoot];
+const child=spawn('powershell.exe',args,{windowsHide:true,stdio:['ignore','pipe','pipe']});let stdout='',stderr='';for(const [stream,name] of [[child.stdout,'stdout'],[child.stderr,'stderr']] as const)stream.on('data',b=>{if(name==='stdout')stdout+=b;else stderr+=b;});
+const code=await new Promise<number|null>((yes,no)=>{child.once('error',no);child.once('close',yes)});
+writeFileSync(join(root,'command.log'),'COMMAND: powershell.exe '+args.join(' ')+'\nTEMP='+process.env.TEMP+'\nTMP='+process.env.TMP+'\n'+stdout+'\n'+stderr+'\nEXIT_CODE='+code+'\n');assert.equal(code,0,stdout+stderr);
+const plan=read(join(runRoot,'plan.json'));checkPlan(plan);assert(/^sha256:[a-f0-9]{64}$/.test(plan.stage.launcher.imageId));assert.equal(plan.stage.launcher.kind,'docker');assert.equal(read(join(runRoot,'scheduler','stop-report.json')).status,'complete');
+const collected=read(join(runRoot,'blocks',plan.jobs[0].blockId,'direct-c1','r1','attempt-1','collected.json'));assert.equal(collected.summary.completed,1);
+console.log(JSON.stringify({oneCommandStage:'PASS',root,imageId:plan.stage.launcher.imageId,completed:1,selectedByStage:true}));

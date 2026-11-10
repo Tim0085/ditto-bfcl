@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { mkdir,copyFile,writeFile } from 'node:fs/promises';
+import { join,resolve } from 'node:path';
+import { docker,labels,inspect,removeExited,save } from '../src/ts/docker/common.ts';
+const output=resolve('runs/offline/t8b-20261105','image-content-'+process.pid);await mkdir(output);await copyFile('runs/offline/t8b-20261105/final-commit-manifest.json',join(output,'manifest.json'));
+const imageId=JSON.parse((await docker(['image','inspect','ditto-sec1-bfcl:dev'])).stdout)[0].Id,runId='t8b-content-'+process.pid;
+const source=`import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';const manifest=JSON.parse(fs.readFileSync('/audit/manifest.json','utf8'));for(const f of manifest.files){assert(!f.path.startsWith('/')&&!f.path.split('/').some(p=>p==='..'||p.toLowerCase()==='private'||p.toLowerCase().startsWith('.env')));const b=fs.readFileSync('/app/'+f.path);assert.equal(createHash('sha256').update(b).digest('hex'),f.sha256,f.path);}console.log(JSON.stringify({frozenImageFilesVerified:manifest.files.length,fingerprint:manifest.fingerprint,allExactBytes:true}));`;
+await writeFile(join(output,'probe.mjs'),source);
+const args=['create','--pull=never',...labels(runId,'manifest'),'--network','none','--mount',`type=bind,source=${output},target=/audit,readonly`,imageId,'node','/audit/probe.mjs'];
+const id=(await docker(args)).stdout.trim();await docker(['start',id]);await docker(['wait',id]);const info=await inspect(id),logs=await docker(['logs',id]);await save(join(output,'process.json'),{command:['docker',...args],info,logs});await removeExited(id,runId,'manifest');console.log(logs.stdout,logs.stderr);assert.equal(info.State.ExitCode,0);

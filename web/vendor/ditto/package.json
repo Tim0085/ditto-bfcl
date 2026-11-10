@@ -1,0 +1,70 @@
+{
+  "name": "@codesoul-co/ditto",
+  "version": "0.1.5",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./contracts": {
+      "types": "./dist/contracts/index.d.ts",
+      "import": "./dist/contracts/index.js"
+    },
+    "./worker": {
+      "types": "./dist/worker/index.d.ts",
+      "import": "./dist/worker/index.js"
+    },
+    "./worker/memory": {
+      "types": "./dist/worker/memory/index.d.ts",
+      "import": "./dist/worker/memory/index.js"
+    },
+    "./worker/context": {
+      "types": "./dist/worker/context/index.d.ts",
+      "import": "./dist/worker/context/index.js"
+    },
+    "./worker/infer": {
+      "types": "./dist/worker/infer/index.d.ts",
+      "import": "./dist/worker/infer/index.js"
+    },
+    "./worker/infer/providers": {
+      "types": "./dist/worker/infer/providers/index.d.ts",
+      "import": "./dist/worker/infer/providers/index.js"
+    },
+    "./worker/interaction": {
+      "types": "./dist/worker/interaction/index.d.ts",
+      "import": "./dist/worker/interaction/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime/index.d.ts",
+      "import": "./dist/runtime/index.js"
+    },
+    "./runtime/sandbox": {
+      "types": "./dist/runtime/sandbox/index.d.ts",
+      "import": "./dist/runtime/sandbox/index.js"
+    },
+    "./worker/node": {
+      "types": "./dist/worker/node.d.ts",
+      "import": "./dist/worker/node.js"
+    },
+    "./agent.schema.json": "./dist/runtime/agent.schema.json"
+  },
+  "dependencies": {
+    "yaml": "^2.9.1"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeSoul-co/Ditto.git"
+  },
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "dittoSourceTag": "v0.1.5",
+  "dittoSourceCommit": "d95ded5000236c4da11a7f038e69906a6641519e"
+}

@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {join} from 'node:path';
+import {rmSync} from 'node:fs';
+import {optimize,profile} from '../src/ts/scheduler/profile.ts';
+import {generate,freeze,categories,matrix} from '../src/ts/scheduler/plan.ts';
+import {json,read,ROOT} from '../src/ts/scheduler/io.ts';
+import {scratch,stage} from './t8a-helpers.ts';
+test('Targeted normal, tie, uniform, missing measurement',()=>{assert.deepEqual(optimize({Context:1,Infer:100,Interaction:1,Memory:1}).copies,{Context:1,Infer:5,Interaction:1,Memory:1});assert.deepEqual(optimize({Context:0,Infer:0,Interaction:0,Memory:0}).copies,{Context:1,Infer:1,Interaction:1,Memory:5});assert.throws(()=>optimize({Context:1,Infer:1,Interaction:1,Memory:1}),/equals Uniform/);assert.throws(()=>optimize({Context:NaN,Infer:1,Interaction:1,Memory:1}),/Missing/);});
+test('Main deterministic plan, 4 x 50 strata, 18 unique orders; all templates',()=>{const dir=scratch();try{const split=join(dir,'split.json');json(split,{status:'complete',byCategory:Object.fromEntries(categories.map(c=>[c,{copies:{Context:1,Infer:5,Interaction:1,Memory:1}}]))});for(const name of ['profile','pilot','slice','main']){const s=read(join(ROOT,`config/stages/${name}.json`));if(s.targetedSplit)s.targetedSplit=split;const a=generate(s),b=generate(s);assert.equal(JSON.stringify(a),JSON.stringify(b));console.log(JSON.stringify({template:name,jobs:a.jobs.length,executions:a.jobs.reduce((n,j)=>n+j.units.reduce((n,u)=>n+u.caseIds.length,0),0)}));if(name==='main'){assert.equal(s.configs.length,18);for(const j of a.jobs){assert.equal(j.caseIds.length,50);assert.equal(new Set(j.units.map(u=>u.caseIds.join(','))).size,18);assert.deepEqual(Object.values(j.environmentCounts).sort(),[12,12,13,13]);}assert.equal(a.jobs.length,48);console.log(JSON.stringify(a.jobs.filter(j=>j.round===1).map(j=>({block:j.blockId,environments:j.environmentCounts}))));}}}finally{rmSync(dir,{recursive:true,force:true});}});
+test('Profiling refuses skipped/interrupted/missing rather than writing split',()=>{const dir=scratch();try{const s=read(join(ROOT,'config/stages/profile.json'));freeze(s,dir);assert.throws(()=>profile(dir,join(dir,'split.json')),/interrupted|retried/);}finally{rmSync(dir,{recursive:true,force:true});}});

@@ -1,0 +1,1877 @@
+[
+  {
+    "version": "exp1-v1",
+    "tag": "ditto-sec1-bfcl:exp1-v1",
+    "imageId": "sha256:4266b217f06f745e1a7b390728d296ab54849ee4cf3050d0c2b2ae55ee4bc6a4",
+    "fingerprint": "c7659f6edf58760c4cc317aa3af93c3dedca5e593b0d5ed4d14ec83909f272b8",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-06T08:38:48.678Z",
+    "publishedAt": "2026-11-06T09:11:53.966Z",
+    "testFingerprint": "cfb1624f19e5c15a15b830610af19ad678f3e7060eaf9972e70b0e3032dcbfab",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-network",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-network.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t7-fix4-network.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-origin",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-origin.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t7-fix4-origin.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-flow",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-flow.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t4-flow.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-measurements.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-measurements.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-fix4-measurements.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-wait.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-wait.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-fix5-wait.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/t8c-20261106/publish/t8c-real-release-smoke.log",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "version": "exp1-v2",
+    "tag": "ditto-sec1-bfcl:exp1-v2",
+    "imageId": "sha256:5726106a039a66ee6009613bb02ba9def0543f364d78358627b83c7aaa4a2df9",
+    "fingerprint": "f7db826d9abf677bee1ce9944b92a3986e3aaf61ad6143e1f63fd751f176e515",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-06T14:04:23.811Z",
+    "publishedAt": "2026-11-06T16:29:26.475Z",
+    "testFingerprint": "8bfcc16813b35fb47da780d4b21e51393873458dfbb5abf0db1787355d95908b",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-network",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-network.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t7-fix4-network.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-origin",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-origin.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t7-fix4-origin.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-flow",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-flow.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t4-flow.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-measurements.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-measurements.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-fix4-measurements.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-wait.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-wait.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-fix5-wait.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-fix1-core.test.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8c-fix1-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-empty-cleanup",
+        "command": [
+          "node",
+          "--import",
+          "./tests/t8c-fix1-isolation-hook.mjs",
+          "--experimental-transform-types",
+          "tests/t8c-fix1-cleanup-empty.ts"
+        ],
+        "log": "runs/offline/t8c-fix1-20261106/publish-exp1-v2/t8c-fix1-empty-cleanup.log",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "version": "exp1-v3",
+    "tag": "ditto-sec1-bfcl:exp1-v3",
+    "imageId": "sha256:8b89ffa43cb34d2ef7ac35a9eb9531b6557b4568c34db7e6ac4ed797f26c4f1c",
+    "fingerprint": "fd3b3d3c3d143bb37b83675c02d011c08e3769ea52a18dab25439d62b2c5c865",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-07T07:21:08.326Z",
+    "publishedAt": "2026-11-07T07:28:56.974Z",
+    "testFingerprint": "176f236d07326ba33efe223bcc59510223d1e46e103df25e44b28d94091344d4",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-network",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-network.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t7-fix4-network.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-origin",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-origin.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t7-fix4-origin.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-flow",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-flow.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t4-flow.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-measurements.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-measurements.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-fix4-measurements.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-wait.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-wait.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-fix5-wait.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-fix1-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8c-fix1-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-empty-cleanup",
+        "command": [
+          "node",
+          "--import",
+          "./tests/t8c-fix1-isolation-hook.mjs",
+          "--experimental-transform-types",
+          "tests/t8c-fix1-cleanup-empty.ts"
+        ],
+        "log": "runs/offline/t9-20261107/publish/exp1-v3/t8c-fix1-empty-cleanup.log",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "version": "exp1-v4",
+    "tag": "ditto-sec1-bfcl:exp1-v4",
+    "imageId": "sha256:7ba028c37b8921be24a0ece979adea77a07dc2b6bcfad59b7dad27b7528a36fa",
+    "fingerprint": "8e67709b784ef7d9250a6980a26ccd8c081dd49eacc58bbfdc7fe6c044d57511",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-07T23:25:34.316Z",
+    "publishedAt": "2026-11-08T00:17:37.109Z",
+    "testFingerprint": "664c442248cd886f31d5b1ec5d410475447595306bb6c4912c644b773bf7dab5",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-network",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-network.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t7-fix4-network.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-origin",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-origin.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t7-fix4-origin.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-flow",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-flow.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t4-flow.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-measurements.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-measurements.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-fix4-measurements.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-wait.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-wait.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-fix5-wait.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-fix1-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8c-fix1-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-empty-cleanup",
+        "command": [
+          "node",
+          "--import",
+          "./tests/t8c-fix1-isolation-hook.mjs",
+          "--experimental-transform-types",
+          "tests/t8c-fix1-cleanup-empty.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t8c-fix1-empty-cleanup.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9-lanes-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-fake",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-fake.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9-lanes-fake.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-live-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-live-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9-live-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c1-export.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9c1-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-release",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c1-release.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9c1-release.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c2-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c2-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9c2-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-core.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9c3-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-export.test.ts"
+        ],
+        "log": "runs/offline/t9-20261107/c3/publish/exp1-v4/t9c3-export.log",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "version": "exp1-v5",
+    "tag": "ditto-sec1-bfcl:exp1-v5",
+    "imageId": "sha256:cc3e49b894ddd7c7fe0ce6be9a9aec171cfe89f8702bb438e6f102f04031f2ee",
+    "fingerprint": "2c634290ce884dbf6815f4ddcc88f61c9e5482b2db7fd7f8c41f489f7b82f4ae",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-08T07:55:31.645Z",
+    "publishedAt": "2026-11-08T08:14:57.733Z",
+    "testFingerprint": "511c08f726bffd1ee3b742305d0384025dc7699d546d68b1f8f2c99e6f786782",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-network",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-network.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t7-fix4-network.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-origin",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-origin.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t7-fix4-origin.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-flow",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-flow.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t4-flow.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-cleanup.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-measurements.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-measurements.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-fix4-measurements.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-wait.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix5-wait.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-fix5-wait.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-fix1-core.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8c-fix1-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-fix1-empty-cleanup",
+        "command": [
+          "node",
+          "--import",
+          "./tests/t8c-fix1-isolation-hook.mjs",
+          "--experimental-transform-types",
+          "tests/t8c-fix1-cleanup-empty.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t8c-fix1-empty-cleanup.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-core.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9-lanes-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-fake",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-fake.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9-lanes-fake.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-live-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-live-core.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9-live-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c1-export.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9c1-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-release",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c1-release.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9c1-release.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c2-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c2-core.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9c2-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-core.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9c3-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-export.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t9c3-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-export-charged",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-export-charged.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t10-export-charged.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-ledger-read",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-ledger-read.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t10-ledger-read.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-release",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-release.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t10-release.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-visible",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-visible.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t10-visible.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-routing.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t11-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-egress.test.ts"
+        ],
+        "log": "runs/offline/exp1-v5-20261108/publish/exp1-v5/t11-egress.log",
+        "exitCode": 0
+      }
+    ]
+  }
+]

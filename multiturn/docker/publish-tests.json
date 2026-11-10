@@ -1,0 +1,322 @@
+[
+  {
+    "name": "typecheck",
+    "command": [
+      "node",
+      "node_modules/typescript/lib/tsc.js",
+      "-p",
+      "tsconfig.json",
+      "--noEmit"
+    ],
+    "log": "typecheck.log"
+  },
+  {
+    "name": "t8b-unit",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8b-unit.test.ts"
+    ],
+    "log": "t8b-unit.log"
+  },
+  {
+    "name": "t8b-fix4-client",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8b-fix4-client.test.ts"
+    ],
+    "log": "t8b-fix4-client.log"
+  },
+  {
+    "name": "t8b-fix4-atomic",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8b-fix4-atomic.test.ts"
+    ],
+    "log": "t8b-fix4-atomic.log"
+  },
+  {
+    "name": "t7-fix4-network",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t7-fix4-network.test.ts"
+    ],
+    "log": "t7-fix4-network.log"
+  },
+  {
+    "name": "t7-fix4-counts",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t7-fix4-counts.test.ts"
+    ],
+    "log": "t7-fix4-counts.log"
+  },
+  {
+    "name": "t7-fix4-origin",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t7-fix4-origin.test.ts"
+    ],
+    "log": "t7-fix4-origin.log"
+  },
+  {
+    "name": "t7-fix4-failure",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t7-fix4-failure-node.test.ts"
+    ],
+    "log": "t7-fix4-failure.log"
+  },
+  {
+    "name": "t4-flow",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t4-flow.test.ts"
+    ],
+    "log": "t4-flow.log"
+  },
+  {
+    "name": "t4-graphs",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t4-graphs.test.ts"
+    ],
+    "log": "t4-graphs.log"
+  },
+  {
+    "name": "t4-routing",
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t4-routing.test.ts"
+    ],
+    "log": "t4-routing.log"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-authorization.test.ts"
+    ],
+    "log": "t8a-authorization.test.log",
+    "name": "t8a-authorization.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-cleanup.test.ts"
+    ],
+    "log": "t8a-cleanup.test.log",
+    "name": "t8a-cleanup.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-core.test.ts"
+    ],
+    "log": "t8a-core.test.log",
+    "name": "t8a-core.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-fix.test.ts"
+    ],
+    "log": "t8a-fix.test.log",
+    "name": "t8a-fix.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-fix4-lock.test.ts"
+    ],
+    "log": "t8a-fix4-lock.test.log",
+    "name": "t8a-fix4-lock.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-fix4-measurements.test.ts"
+    ],
+    "log": "t8a-fix4-measurements.test.log",
+    "name": "t8a-fix4-measurements.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-fix5-data.test.ts"
+    ],
+    "log": "t8a-fix5-data.test.log",
+    "name": "t8a-fix5-data.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-fix5-pauses.test.ts"
+    ],
+    "log": "t8a-fix5-pauses.test.log",
+    "name": "t8a-fix5-pauses.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-fix5-wait.test.ts"
+    ],
+    "log": "t8a-fix5-wait.test.log",
+    "name": "t8a-fix5-wait.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8a-safety.test.ts"
+    ],
+    "log": "t8a-safety.test.log",
+    "name": "t8a-safety.test"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "--test",
+      "tests/t8c-contract.test.ts"
+    ],
+    "log": "t8c-contract.test.log",
+    "name": "t8c-contract.test"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t8c-cleanup.test.ts"],
+    "log": "t8c-cleanup.test.log",
+    "name": "t8c-cleanup.test"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "tests/t8c-cli.ts"],
+    "log": "t8c-one-command-cli.log",
+    "name": "t8c-one-command-cli"
+  },
+  {
+    "command": [
+      "node",
+      "--experimental-transform-types",
+      "tests/t8c-release-smoke.ts"
+    ],
+    "log": "t8c-real-release-smoke.log",
+    "name": "t8c-real-release-smoke"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t8c-fix1-core.test.ts"],
+    "log": "t8c-fix1-core.log",
+    "name": "t8c-fix1-core"
+  },
+  {
+    "command": ["node", "--import", "./tests/t8c-fix1-isolation-hook.mjs", "--experimental-transform-types", "tests/t8c-fix1-cleanup-empty.ts"],
+    "log": "t8c-fix1-empty-cleanup.log",
+    "name": "t8c-fix1-empty-cleanup"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9-lanes-core.test.ts"],
+    "log": "t9-lanes-core.log",
+    "name": "t9-lanes-core"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9-lanes-fake.test.ts"],
+    "log": "t9-lanes-fake.log",
+    "name": "t9-lanes-fake"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9-live-core.test.ts"],
+    "log": "t9-live-core.log",
+    "name": "t9-live-core"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9c1-export.test.ts"],
+    "log": "t9c1-export.log",
+    "name": "t9c1-export"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9c1-release.test.ts"],
+    "log": "t9c1-release.log",
+    "name": "t9c1-release"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9c2-core.test.ts"],
+    "log": "t9c2-core.log",
+    "name": "t9c2-core"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9c3-core.test.ts"],
+    "log": "t9c3-core.log",
+    "name": "t9c3-core"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "tests/t9c3-export.test.ts"],
+    "log": "t9c3-export.log",
+    "name": "t9c3-export"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "--test-timeout=300000", "tests/t10-export-charged.test.ts"],
+    "log": "t10-export-charged.log",
+    "name": "t10-export-charged"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "--test-timeout=300000", "tests/t10-ledger-read.test.ts"],
+    "log": "t10-ledger-read.log",
+    "name": "t10-ledger-read"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "--test-timeout=300000", "tests/t10-release.test.ts"],
+    "log": "t10-release.log",
+    "name": "t10-release"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "--test-timeout=300000", "tests/t10-visible.test.ts"],
+    "log": "t10-visible.log",
+    "name": "t10-visible"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "--test-timeout=300000", "tests/t11-routing.test.ts"],
+    "log": "t11-routing.log",
+    "name": "t11-routing"
+  },
+  {
+    "command": ["node", "--experimental-transform-types", "--test", "--test-timeout=300000", "tests/t11-egress.test.ts"],
+    "log": "t11-egress.log",
+    "name": "t11-egress"
+  }
+]

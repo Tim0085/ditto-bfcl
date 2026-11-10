@@ -1,0 +1,1 @@
+{"version":3,"file":"types.d.ts","sourceRoot":"","sources":["../../../../src/worker/memory/delete/types.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,iBAAiB;IAAG,GAAG,EAAE,SAAS,MAAM,EAAE,CAAC;CAAE;AAC9D,MAAM,WAAW,kBAAkB;IAAG,OAAO,EAAE,SAAS,MAAM,EAAE,CAAC;CAAE"}

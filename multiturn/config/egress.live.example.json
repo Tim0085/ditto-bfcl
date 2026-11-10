@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "backend": "live",
+  "mode": "live",
+  "debug": true,
+  "settings": {
+    "profile": "deepseek",
+    "model": {
+      "protocol": "chat-completions",
+      "baseUrl": "",
+      "baseUrlEnv": "BFCL_BASE_URL",
+      "apiKeyEnv": "BFCL_API_KEY",
+      "model": "deepseek-flash",
+      "reasoningEffort": "high",
+      "maxOutputTokens": 65536,
+      "maxInputTokens": 32768,
+      "maxRequestBytes": 8388608,
+      "timeoutMs": 600000,
+      "referencePrice": {
+        "inputPerMillion": null,
+        "outputPerMillion": null
+      }
+    },
+    "budget": {
+      "referenceUsd": null,
+      "maxRequests": null,
+      "referenceCny": null,
+      "peakCnyPerMillion": {
+        "cachedInput": null,
+        "uncachedInput": null,
+        "output": null
+      }
+    }
+  },
+  "perTaskRequests": 100,
+  "retryPolicy": {
+    "maxRetries": 2
+  },
+  "dispatchPolicy": {
+    "maxInFlight": 81,
+    "requestsPerMinute": 6000,
+    "minIntervalMs": 10,
+    "maxCooldownMs": 900000
+  }
+}

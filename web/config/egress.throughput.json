@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "backend": "fixtures",
+  "mode": "offline-reference",
+  "debug": true,
+  "settings": {
+    "profile": "deepseek",
+    "model": {
+      "protocol": "chat-completions",
+      "baseUrl": "",
+      "baseUrlEnv": "BFCL_BASE_URL",
+      "apiKeyEnv": "BFCL_API_KEY",
+      "model": "deepseek-flash",
+      "reasoningEffort": "high",
+      "maxOutputTokens": 65536,
+      "maxInputTokens": 32768,
+      "maxRequestBytes": 1887436,
+      "timeoutMs": 600000,
+      "referencePrice": {
+        "inputPerMillion": 0.3,
+        "outputPerMillion": 1.2
+      }
+    },
+    "budget": {
+      "referenceUsd": 1000000000,
+      "maxRequests": 10000000
+    }
+  },
+  "searchPath": "/v1/tools/search",
+  "searchMaxRequests": 10000000,
+  "searchCny": 50000,
+  "searchDispatch": {
+    "maxInFlight": 81,
+    "requestsPerMinute": 6000
+  },
+  "perTaskRequests": 100,
+  "retryPolicy": {
+    "maxRetries": 2
+  },
+  "dispatchPolicy": {
+    "maxInFlight": 81,
+    "requestsPerMinute": 60000,
+    "minIntervalMs": 1,
+    "maxCooldownMs": 900000
+  },
+  "replay": {
+    "source": "../../bfcl_direct/runs/multiturn-full800-001",
+    "index": "runs/offline/replay-index/index.json",
+    "failOnDifference": true
+  }
+}

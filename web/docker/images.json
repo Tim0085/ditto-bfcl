@@ -1,0 +1,1986 @@
+[
+  {
+    "version": "exp1-v1",
+    "tag": "ditto-sec1-bfcl-web:exp1-v1",
+    "imageId": "sha256:5c477b9ed6ad2a348307c9d7c17509afeb05980f057ffaca05fd572a8cc87fe0",
+    "fingerprint": "0f45c3e05e2d85271453b407b8f23a58a935f11aa8d2fbc256876d339bf23ae1",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-09T07:28:18.494Z",
+    "publishedAt": "2026-11-09T08:57:57.900Z",
+    "testFingerprint": "635049b33023f24cf1c9550a6011f2b19c1f5df61112846923d43605f4c0151b",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-core.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t9-lanes-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-fake",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t9-lanes-fake.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t9-lanes-fake.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-name-pattern=^(graphTimes: same result.*synthetic|resources:|fee confirmations:|confirm-fee[.]ts|helpers:)",
+          "tests/t9c1-export.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t9c1-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-core.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t9c3-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-export-charged",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-export-charged.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t10-export-charged.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-ledger-read",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-ledger-read.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t10-ledger-read.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-visible",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-visible.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t10-visible.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-routing.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t11-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-egress.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t11-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-runtime",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-runtime.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/web-runtime.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-python",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-python.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/web-python.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-live-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9-live-core.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t9-live-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c2-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c2-core.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t9c2-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c3-export.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/t9c3-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "egress-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/egress-core.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/egress-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-egress.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/web-b-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-scheduler",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-scheduler.test.ts"
+        ],
+        "log": "runs/offline/web-c-20261109/publish-r2/web-b-scheduler.log",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "version": "exp1-v2",
+    "tag": "ditto-sec1-bfcl-web:exp1-v2",
+    "imageId": "sha256:988b1323ead7c8ebae0cd2180ffbce7f2fcd2147be51ece513c27741b902f808",
+    "fingerprint": "61ac9f1996a30894192fc841524066ed4551506b13564144cf215c962fff90f5",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-09T11:49:30.745Z",
+    "publishedAt": "2026-11-09T12:30:30.495Z",
+    "testFingerprint": "f1ebdafe992529b45c87c4854448a609ed4ea5866e86ffe11d0e5c01d3728eed",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-core.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t9-lanes-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-fake",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t9-lanes-fake.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t9-lanes-fake.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-name-pattern=^(graphTimes: same result.*synthetic|resources:|fee confirmations:|confirm-fee[.]ts|helpers:)",
+          "tests/t9c1-export.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t9c1-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-core.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t9c3-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-export-charged",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-export-charged.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t10-export-charged.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-ledger-read",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-ledger-read.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t10-ledger-read.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-visible",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-visible.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t10-visible.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-routing.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t11-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-egress.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t11-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-runtime",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-runtime.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/web-runtime.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-python",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-python.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/web-python.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-live-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9-live-core.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t9-live-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c2-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c2-core.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t9c2-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c3-export.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/t9c3-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "egress-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/egress-core.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/egress-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-egress.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/web-b-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-scheduler",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-scheduler.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/web-b-scheduler.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-c-worker-ipc",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/web-c-worker-ipc-container.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/web-c-worker-ipc.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-prof-profile",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-prof-profile.test.ts"
+        ],
+        "log": "runs/offline/web-prof-20261109/publish-r2/web-prof-profile.log",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "version": "exp1-v3",
+    "tag": "ditto-sec1-bfcl-web:exp1-v3",
+    "imageId": "sha256:dbd3645c473040ade9c0ea51ea4eadf3e3edead28e06c8b43c220b7e15912f2b",
+    "fingerprint": "11e036cb50457cb6b8f04838ebf6e708d12a861535ffd371691f81d08f29533f",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-09T13:53:07.362Z",
+    "publishedAt": "2026-11-09T14:15:46.278Z",
+    "testFingerprint": "b43c361cbd3fdf00783ebc9506d4f291f644bd835575f570e6ee89db0c8fdf43",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t9-lanes-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-fake",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t9-lanes-fake.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t9-lanes-fake.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-name-pattern=^(graphTimes: same result.*synthetic|resources:|fee confirmations:|confirm-fee[.]ts|helpers:)",
+          "tests/t9c1-export.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t9c1-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t9c3-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-export-charged",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-export-charged.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t10-export-charged.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-ledger-read",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-ledger-read.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t10-ledger-read.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-visible",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-visible.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t10-visible.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-routing.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t11-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-egress.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t11-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-runtime",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-runtime.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/web-runtime.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-python",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-python.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/web-python.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-live-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9-live-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t9-live-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c2-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c2-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t9c2-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c3-export.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/t9c3-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "egress-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/egress-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/egress-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-egress.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/web-b-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-scheduler",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-scheduler.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/web-b-scheduler.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-c-worker-ipc",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/web-c-worker-ipc-container.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/web-c-worker-ipc.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-prof-profile",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-prof-profile.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/web-prof-profile.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-fix-channel",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=600000",
+          "tests/web-fix-channel.test.ts"
+        ],
+        "log": "runs/offline/web-fix-20261109/publish/web-fix-channel.log",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "version": "exp1-v4",
+    "tag": "ditto-sec1-bfcl-web:exp1-v4",
+    "imageId": "sha256:4966ecbb956ecca2571e24c6ffc479ab294fb06ec1d1cc55fc70db124ad24dad",
+    "fingerprint": "024d791c5a8ffa48ad2ed00b907061e422b00cb98d9289cd72dc5a60aea6397f",
+    "baseImages": [
+      {
+        "kind": "node",
+        "id": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "digest": "sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "reference": "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8",
+          "node@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8"
+        ]
+      },
+      {
+        "kind": "python",
+        "id": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "digest": "sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "reference": "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+        "repoDigests": [
+          "ditto-bfcl-base-relocation@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db",
+          "python@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db"
+        ]
+      }
+    ],
+    "builtAt": "2026-11-09T16:03:45.487Z",
+    "publishedAt": "2026-11-09T16:27:44.716Z",
+    "testFingerprint": "8f06567f5fe72e70565d9c90d8df7da68918472c902b2bd454f58c2ac29ac266",
+    "tests": [
+      {
+        "name": "typecheck",
+        "command": [
+          "node",
+          "node_modules/typescript/lib/tsc.js",
+          "-p",
+          "tsconfig.json",
+          "--noEmit"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/typecheck.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-unit",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-unit.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8b-unit.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-client",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-client.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8b-fix4-client.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8b-fix4-atomic",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8b-fix4-atomic.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8b-fix4-atomic.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-failure",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t7-fix4-failure-node.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t7-fix4-failure.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-graphs",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t4-graphs.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t4-graphs.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-authorization.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-authorization.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8a-authorization.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix4-lock.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8a-fix4-lock.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8a-fix4-lock.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-pauses.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-fix5-pauses.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8a-fix5-pauses.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-safety.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t8a-safety.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8a-safety.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-cleanup.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t8c-cleanup.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8c-cleanup.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9-lanes-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t9-lanes-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-lanes-fake",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t9-lanes-fake.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t9-lanes-fake.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c1-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-name-pattern=^(graphTimes: same result.*synthetic|resources:|fee confirmations:|confirm-fee[.]ts|helpers:)",
+          "tests/t9c1-export.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t9c1-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "tests/t9c3-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t9c3-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-export-charged",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-export-charged.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t10-export-charged.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-ledger-read",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=900000",
+          "tests/t10-ledger-read.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t10-ledger-read.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t10-visible",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t10-visible.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t10-visible.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-routing.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t11-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t11-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-timeout=300000",
+          "tests/t11-egress.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t11-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-runtime",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-runtime.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-runtime.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-python",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/web-python.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-python.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t7-fix4-counts",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t7-fix4-counts.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t7-fix4-counts.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t4-routing",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=180000",
+          "tests/t4-routing.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t4-routing.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-core.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8a-core.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8a-fix.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8a-fix5-data.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8a-fix5-data.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8a-fix5-data.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-contract.test",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t8c-contract.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8c-contract.test.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-one-command-cli",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-cli.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8c-one-command-cli.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t8c-real-release-smoke",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/t8c-release-smoke.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t8c-real-release-smoke.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9-live-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9-live-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t9-live-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c2-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c2-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t9c2-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "t9c3-export",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/t9c3-export.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/t9c3-export.log",
+        "exitCode": 0
+      },
+      {
+        "name": "egress-core",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/egress-core.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/egress-core.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-egress",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-egress.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-b-egress.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-b-scheduler",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-b-scheduler.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-b-scheduler.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-c-worker-ipc",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "tests/web-c-worker-ipc-container.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-c-worker-ipc.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-prof-profile",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=300000",
+          "tests/web-prof-profile.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-prof-profile.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-fix-channel",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=600000",
+          "tests/web-fix-channel.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-fix-channel.log",
+        "exitCode": 0
+      },
+      {
+        "name": "web-fix2-search",
+        "command": [
+          "node",
+          "--experimental-transform-types",
+          "--test",
+          "--test-isolation=none",
+          "--test-timeout=600000",
+          "tests/web-fix2-search.test.ts"
+        ],
+        "log": "runs/offline/web-fix2-20261109/publish/web-fix2-search.log",
+        "exitCode": 0
+      }
+    ]
+  }
+]
